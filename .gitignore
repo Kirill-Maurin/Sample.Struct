@@ -1,0 +1,14 @@
+syntax: glob
+*.dll
+*.pdb
+bin
+obj
+packages
+.suo
+.vs
+*.lock.json
+*.sln.DotSettings.user
+.bin
+.idea
+.obj
+

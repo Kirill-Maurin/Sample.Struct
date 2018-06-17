@@ -1,0 +1,28 @@
+environment:
+  projectName: Sample.Travel
+version: 1.0.{build}
+image: Visual Studio 2017
+configuration: Release
+cache:
+- packages -> **\packages.config  # preserve "packages" directory in the root of build folder but will reset it if packages.config is modified
+- '%LocalAppData%\NuGet\v3-cache' # NuGet v3
+- C:\ProgramData\chocolatey\lib
+- C:\ProgramData\chocolatey\bin
+install:
+- choco install resharper-clt
+- choco install opencover.portable
+- choco install codecov
+before_build:
+- msbuild /t:Restore /m %projectName%.sln
+build:
+  verbosity: minimal
+  project: $(projectName).sln
+after_build:
+- InspectCode.exe -o=%projectName%.Resharper.xml %projectName%.sln
+- ps: $result = [xml](Get-Content .\$env:projectName.Resharper.xml)
+- ps: $convert = @{ WARNING = 'Warning'; ERROR = 'Error' }
+- ps: $result.Report.IssueTypes.ChildNodes | % { $types = @{} } { $types[$_.Id] = if ($convert.ContainsKey($_.Severity)) { $convert[$_.Severity] } else { "Information" } }
+- ps: $result.Report.Issues.ChildNodes | % {$project = $_.Name; $_.ChildNodes | % {Add-AppveyorCompilationMessage -Category $types[$_.TypeId] -Message $_.Message -Line $_.Line -FileName $_.File -ProjectName $project}}
+test_script:
+- OpenCover.Console.exe -register:user -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:"test --no-build %projectName%.Tests.sln" -output:".\%projectName%.Coverage.xml" -oldstyle
+- codecov -f "%projectName%.Coverage.xml"

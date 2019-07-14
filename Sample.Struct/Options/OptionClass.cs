@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Sample.Struct
+namespace Sample.Struct.Options
 {
     public static class OptionClass
     {

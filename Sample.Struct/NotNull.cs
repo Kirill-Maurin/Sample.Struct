@@ -1,4 +1,5 @@
 ﻿using System;
+using Sample.Struct.Options;
 
 namespace Sample.Struct
 {

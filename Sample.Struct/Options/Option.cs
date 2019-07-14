@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Sample.Struct
+namespace Sample.Struct.Options
 {
     public static class Option
     {

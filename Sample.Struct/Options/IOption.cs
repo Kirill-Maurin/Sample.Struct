@@ -1,4 +1,4 @@
-﻿namespace Sample.Struct
+﻿namespace Sample.Struct.Options
 {
     public interface IOption<T> 
     {

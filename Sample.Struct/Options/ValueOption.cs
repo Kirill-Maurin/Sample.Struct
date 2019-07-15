@@ -7,7 +7,7 @@ namespace Sample.Struct.Options
     {
         public static ValueOption<T> AsOption<T>(this T? nullable) where T: struct => new ValueOption<T>(nullable);
         public static ValueOption<T> AsOption<T>(this ValueOption<T> option) where T: struct => option;
-        public static ValueOption<T> AsNullable<T>(this ValueOption<T> option) where T: struct => option.TryGetValue(out var v) ? new Nullable<T>(v) : null;
+        public static T? AsNullable<T>(this ValueOption<T> option) where T: struct => option.TryGetValue(out var v) ? new Nullable<T>(v) : null;
     }
 
     public readonly struct ValueOption<T> : IOption<T>, IEquatable<ValueOption<T>> where T: struct
@@ -31,5 +31,5 @@ namespace Sample.Struct.Options
 
         public static implicit operator T?(ValueOption<T> option) => option.AsNullable();
         public static implicit operator ValueOption<T>(T? nullable) => nullable.AsOption();
-    }
+    }    
 }

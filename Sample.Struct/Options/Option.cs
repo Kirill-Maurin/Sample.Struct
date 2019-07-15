@@ -44,7 +44,7 @@ namespace Sample.Struct.Options
 
     public readonly struct Option<T, TO> : IOption<T>, IEquatable<Option<T, TO>> where TO : IOption<T>
     {
-        public Option(TO option) => Unwrap = option;
+        public Option(in TO option) => Unwrap = option;
 
         public bool TryGetValue(out NotNull<T> value) => Unwrap.TryGetValue(out value);
 

@@ -12,7 +12,7 @@ namespace Sample.Struct.Options
 
     public readonly struct ValueOption<T> : IOption<T>, IEquatable<ValueOption<T>> where T: struct
     {
-        internal ValueOption(T? nullable) => (Value, HasValue) = (nullable.HasValue ? nullable.Value : default, nullable.HasValue);
+        internal ValueOption(in T? nullable) => (Value, HasValue) = (nullable.HasValue ? nullable.Value : default, nullable.HasValue);
 
         public bool TryGetValue(out NotNull<T> value)
         {

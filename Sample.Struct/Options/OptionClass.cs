@@ -10,7 +10,7 @@ namespace Sample.Struct.Options
 
     public sealed class OptionClass<T> : IEquatable<OptionClass<T>>
     {
-        internal OptionClass(T value) => Value = value;
+        internal OptionClass(in T value) => Value = value;
         OptionClass() => HasValue = false;
 
         public bool HasValue { get; } = true;

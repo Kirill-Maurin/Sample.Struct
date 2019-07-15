@@ -8,8 +8,10 @@ namespace Sample.Struct.Options
         public static Option<T, Option<T>> CanBeNull<T>([CanBeNull]this T reference) where T: class => reference.AsOption();
         public static Option<T, NotNull<T>> AsOption<T>(this NotNull<T> notNull) where T: class => new Option<T, NotNull<T>>(notNull);
         public static Option<T, Option<T>> AsOption<T>([CanBeNull]this T reference) where T: class => new Option<T>(reference).AsOption();
-        public static Option<T, Option<T>> AsOption<T>(this Option<T> option) where T: class => new Option<T, Option<T>>(option);        
-        public static Option<T, TO> AsOption<T, TO>(this Option<T, TO> option) where TO: IOption<T> => option;
+        public static Option<T, Option<T>> AsOption<T>(this Option<T> option) where T: class => new Option<T, Option<T>>(option);              
+        public static Option<T, TO> AsOption<T, TO>(this Option<T, TO> option) where TO: IOption<T> => option;           
+        public static Option<T, Null<T>> Null<T>() => Options.Null<T>.Instance;     
+        public static Option<T, Null<T>> Null<T>(this T _) => Null<T>();     
 
         [CanBeNull]
         public static T AsReference<T>(this Option<T> option) where T: class => option.TryGetValue(out var reference) ? reference : null;
@@ -42,7 +44,7 @@ namespace Sample.Struct.Options
 
     public readonly struct Option<T, TO> : IOption<T>, IEquatable<Option<T, TO>> where TO : IOption<T>
     {
-        internal Option(TO option) => Unwrap = option;
+        public Option(TO option) => Unwrap = option;
 
         public bool TryGetValue(out NotNull<T> value) => Unwrap.TryGetValue(out value);
 

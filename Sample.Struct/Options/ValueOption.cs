@@ -10,7 +10,7 @@ namespace Sample.Struct.Options
         public static ValueOption<T> AsNullable<T>(this ValueOption<T> option) where T: struct => option.TryGetValue(out var v) ? new Nullable<T>(v) : null;
     }
 
-    public struct ValueOption<T> : IOption<T>, IEquatable<ValueOption<T>> where T: struct
+    public readonly struct ValueOption<T> : IOption<T>, IEquatable<ValueOption<T>> where T: struct
     {
         internal ValueOption(T? nullable) => (Value, HasValue) = (nullable.HasValue ? nullable.Value : default, nullable.HasValue);
 

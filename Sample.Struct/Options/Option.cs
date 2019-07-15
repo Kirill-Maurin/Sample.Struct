@@ -17,7 +17,7 @@ namespace Sample.Struct.Options
         public static T AsReference<T>(this Option<T, Option<T>> option) where T: class => option.Unwrap.AsReference();
     }
 
-    public struct Option<T> : IOption<T>, IEquatable<Option<T>> where T: class
+    public readonly struct Option<T> : IOption<T>, IEquatable<Option<T>> where T: class
     {
         internal Option([CanBeNull]T value) => Value = value;
 

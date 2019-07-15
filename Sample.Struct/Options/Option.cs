@@ -40,7 +40,7 @@ namespace Sample.Struct.Options
         public static implicit operator Option<T, Option<T>>(Option<T> option) => option.AsOption();
     }
 
-    public struct Option<T, TO> : IOption<T>, IEquatable<Option<T, TO>> where TO : IOption<T>
+    public readonly struct Option<T, TO> : IOption<T>, IEquatable<Option<T, TO>> where TO : IOption<T>
     {
         internal Option(TO option) => Unwrap = option;
 

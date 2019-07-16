@@ -5,14 +5,14 @@ namespace Sample.Struct.Options
 {
     public static class ValueOption
     {
-        public static ValueOption<T> AsOption<T>(this T? nullable) where T: struct => new ValueOption<T>(nullable);
-        public static ValueOption<T> AsOption<T>(this ValueOption<T> option) where T: struct => option;
-        public static T? AsNullable<T>(this ValueOption<T> option) where T: struct => option.TryGetValue(out var v) ? new Nullable<T>(v) : null;
+        public static ValueOption<T> AsOption<T>(this T? nullable) where T : struct => new ValueOption<T>(nullable);
+        public static ValueOption<T> AsOption<T>(this ValueOption<T> option) where T : struct => option;
+        public static T? AsNullable<T>(this ValueOption<T> option) where T : struct => option.TryGetValue(out var v) ? new Nullable<T>(v) : null;
     }
 
-    public readonly struct ValueOption<T> : IOption<T>, IEquatable<ValueOption<T>> where T: struct
+    public readonly struct ValueOption<T> : IOption<T>, IEquatable<ValueOption<T>> where T : struct
     {
-        internal ValueOption(in T? nullable) => (Value, HasValue) = (nullable.HasValue ? nullable.Value : default, nullable.HasValue);
+        internal ValueOption(in T? nullable) => (Value, HasValue) = (nullable ?? default, nullable.HasValue);
 
         public bool TryGetValue(out NotNull<T> value)
         {
@@ -31,5 +31,5 @@ namespace Sample.Struct.Options
 
         public static implicit operator T?(ValueOption<T> option) => option.AsNullable();
         public static implicit operator ValueOption<T>(T? nullable) => nullable.AsOption();
-    }    
+    }
 }

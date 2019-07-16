@@ -31,5 +31,9 @@ namespace Sample.Struct.Options
 
         public static implicit operator T?(ValueOption<T> option) => option.AsNullable();
         public static implicit operator ValueOption<T>(T? nullable) => nullable.AsOption();
+
+        public static bool operator ==(ValueOption<T> left, ValueOption<T> right) => left.Equals(right);
+
+        public static bool operator !=(ValueOption<T> left, ValueOption<T> right) => !(left == right);
     }
 }

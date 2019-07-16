@@ -7,12 +7,12 @@ namespace Sample.Struct.Options
         public static OptionStruct<T> ToOptionStruct<T>(this T value) => value == null ? Null<T>() : new OptionStruct<T>(value);
         public static OptionStruct<T> Null<T>() => OptionStruct<T>.Null;
     }
-        
+
     public readonly struct OptionStruct<T> : IOption<T>, IEquatable<OptionStruct<T>>
     {
         internal OptionStruct(in T value) => (HasValue, Value) = (true, value);
 
-        public bool HasValue { get; } 
+        public bool HasValue { get; }
 
         public bool TryGetValue(out NotNull<T> value)
         {
@@ -29,5 +29,9 @@ namespace Sample.Struct.Options
         public override bool Equals(object obj) => obj is OptionStruct<T> option && Equals(option);
 
         public override int GetHashCode() => HasValue ? Value.GetHashCode() : 2019994878;
-    }    
+
+        public static bool operator ==(OptionStruct<T> left, OptionStruct<T> right) => left.Equals(right);
+
+        public static bool operator !=(OptionStruct<T> left, OptionStruct<T> right) => !(left == right);
+    }
 }

@@ -8,20 +8,20 @@ namespace Sample.Struct.Options
         public static OptionClass<T> Null<T>() => OptionClass<T>.Null;
     }
 
-    public sealed class OptionClass<T> : IEquatable<OptionClass<T>>
+    public sealed class OptionClass<T> : IOption<T>, IEquatable<OptionClass<T>>
     {
         internal OptionClass(in T value) => Value = value;
-        OptionClass() => HasValue = false;
+        OptionClass() { }
 
         public bool HasValue { get; } = true;
 
-        public bool TryGet(out T value)
+        public bool TryGetValue(out NotNull<T> value)
         {
             value = Value;
             return HasValue;
         }
 
-        T Value { get; }
+        NotNull<T> Value { get; }
 
         internal static OptionClass<T> Null { get; } = new OptionClass<T>();
 

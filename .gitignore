@@ -11,4 +11,5 @@ packages
 .bin
 .idea
 .obj
+.build
 

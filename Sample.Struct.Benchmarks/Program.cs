@@ -1,89 +1,9 @@
-﻿using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Configs;
-using BenchmarkDotNet.Jobs;
-using BenchmarkDotNet.Running;
-using BenchmarkDotNet.Toolchains.InProcess;
-using System;
-using System.Linq;
+﻿using BenchmarkDotNet.Running;
 
 namespace Sample.Struct.Benchmarks
 {
-    public static class Program
+    public static partial class Program
     {
-        public static void Main(string[] args) => BenchmarkRunner.Run<Benchmarks>();
-
-        [KeepBenchmarkFiles]
-        [MemoryDiagnoser]
-        [Config(typeof(Runtimes))]
-        public sealed class Benchmarks
-        {
-            [Params(1000000)]
-            public int ActionCount { get; set; }
-
-            [Params(30)]
-            public int CheckCount { get; set; }
-
-            [Benchmark(Baseline = true)]
-            public void CheckNullBenchmark()
-                => TestCheckNull(TestObjects, ActionCount, CheckCount);
-
-            [Benchmark]
-            public void EnsureNotNullBenchmark()
-                => TestEnsureNotNull(TestObjects, ActionCount, CheckCount);
-
-            [Benchmark]
-            public void CannotBeNullBenchmark()
-                => TestCannotBeNull(TestObjects, ActionCount, CheckCount);
-
-            static object[] TestObjects { get; } = Enumerable.Range(0, 1000000).Select(i => new object()).ToArray();
-
-            static void TestCheckNull(object[] objects, int wrapCount, int checkCount)
-            {
-                for (var i = 0; i < wrapCount; i++)
-                {
-                    var o = objects[i];
-                    for (var _ = 0; _ < checkCount; _++)
-                    {
-                        CheckNull(o);
-                        o.ToString();
-                    }
-                }
-            }
-
-            private static void CheckNull(object @object)
-            {
-                if (@object == null)
-                    throw new ArgumentNullException(nameof(@object));
-            }
-
-            static void TestEnsureNotNull(object[] objects, int wrapCount, int checkCount)
-            {
-                for (var i = 0; i < wrapCount; i++)
-                {
-                    var o = objects[i].EnsureNotNull();
-                    for (var _ = 0; _ < checkCount; _++)
-                    {
-                        o.Unwrap.ToString();
-                    }
-                }
-            }
-
-            static void TestCannotBeNull(object[] objects, int wrapCount, int checkCount)
-            {
-                for (var i = 0; i < wrapCount; i++)
-                {
-                    var o = objects[i].CannotBeNull();
-                    for (var _ = 0; _ < checkCount; _++)
-                    {
-                        o.Unwrap.ToString();
-                    }
-                }
-            }
-        }
-
-        public sealed class Runtimes : ManualConfig
-        {
-            public Runtimes() => Add(Job.Default.With(InProcessToolchain.Instance));
-        }
+        public static void Main(string[] args) => BenchmarkRunner.Run<NotNullBenchmarks>();
     }
 }

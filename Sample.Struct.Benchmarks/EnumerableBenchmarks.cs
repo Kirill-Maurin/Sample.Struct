@@ -7,7 +7,7 @@ namespace Sample.Struct.Benchmarks
 {
     [MemoryDiagnoser]
     [Config(typeof(Runtimes))]
-    public sealed class EnumerableBenchmarks
+    public class EnumerableBenchmarks
     {
         [Benchmark(Baseline = true)]
         public void SumArrayBenchmark() => _array.Sum();

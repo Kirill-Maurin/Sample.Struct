@@ -7,8 +7,12 @@ namespace Sample.Struct
     {
         public static NotNull<T> EnsureNotNull<T>(this NotNull<T> value) => value;
         public static NotNull<T> EnsureNotNull<T>([NotNull]this T value) => value.EnsureNotNull(string.Empty);
-        public static NotNull<T> EnsureNotNull<T>([NotNull]this T value, string name) 
-            => TryCreate(value, out var result) ? result : throw new ArgumentNullException(name);
+        public static NotNull<T> EnsureNotNull<T>([NotNull]this T value, string name)
+        {
+            if (value == null)
+                throw new ArgumentNullException(name);
+            return new NotNull<T>(value);
+        }
         public static NotNull<T> AsNotNull<T>(this T value) where T: struct => new NotNull<T>(value);
         public static NotNull<T> AsNotNull<T>(this NotNull<T> value) where T: struct => value;
         public static NotNull<T> CannotBeNull<T>([NotNull]this T reference) where T: class => new NotNull<T>(reference);

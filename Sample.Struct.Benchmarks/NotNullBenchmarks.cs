@@ -7,9 +7,9 @@ namespace Sample.Struct.Benchmarks
     [KeepBenchmarkFiles]
     [MemoryDiagnoser]
     [Config(typeof(Runtimes))]
-    public sealed class NotNullBenchmarks
+    public class NotNullBenchmarks
     {
-        [Params(1000000)]
+        [Params(10000)]
         public int ActionCount { get; set; }
 
         [Params(30)]

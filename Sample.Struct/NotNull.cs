@@ -30,7 +30,7 @@ namespace Sample.Struct
         }
     }
 
-    public readonly struct NotNull<T> : IEquatable<NotNull<T>>, IOption<T>
+    public readonly struct NotNull<T> : IEquatable<NotNull<T>>
     {
         internal NotNull([NotNull]T unwrap) => Unwrap = unwrap;
 
@@ -45,11 +45,5 @@ namespace Sample.Struct
         public static bool operator !=(NotNull<T> left, NotNull<T> right) => !left.Equals(right);
         public static implicit operator T(NotNull<T> t) => t.Unwrap;
         public static implicit operator NotNull<T>(T value) => value.EnsureNotNull();
-        public bool TryGetValue(out NotNull<T> value)
-        {
-            value = this;
-            return true;
-        }
-        public bool HasValue => true;
     }
 }

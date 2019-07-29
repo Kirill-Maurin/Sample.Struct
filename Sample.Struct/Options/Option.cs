@@ -45,25 +45,25 @@ namespace Sample.Struct.Options
         public static bool operator !=(Option<T> left, Option<T> right) => !(left == right);
     }
 
-    public readonly struct Option<T, TO> : IOption<T>, IEquatable<Option<T, TO>> where TO : IOption<T>
+    public readonly struct Option<T, TOption> : IOption<T>, IEquatable<Option<T, TOption>> where TOption : IOption<T>
     {
-        public Option(in TO option) => Unwrap = option;
+        public Option(in TOption option) => Unwrap = option;
 
         public bool TryGetValue(out NotNull<T> value) => Unwrap.TryGetValue(out value);
 
-        public override bool Equals(object obj) => obj is Option<T, TO> option && Equals(option);
+        public override bool Equals(object obj) => obj is Option<T, TOption> option && Equals(option);
         public override int GetHashCode() => Unwrap.GetHashCode();
         public override string ToString() => Unwrap.ToString();
 
         public bool HasValue => Unwrap.HasValue;
-        public TO Unwrap { get; }
+        public TOption Unwrap { get; }
 
-        public bool Equals(Option<T, TO> other) => Unwrap.Equals(other.Unwrap);
-        public bool Equals(TO other) => other.Equals(Unwrap);
-        public static implicit operator TO(Option<T, TO> t) => t.Unwrap;
+        public bool Equals(Option<T, TOption> other) => Unwrap.Equals(other.Unwrap);
+        public bool Equals(TOption other) => other.Equals(Unwrap);
+        public static implicit operator TOption(Option<T, TOption> t) => t.Unwrap;
 
-        public static bool operator ==(Option<T, TO> left, Option<T, TO> right) => left.Equals(right);
+        public static bool operator ==(Option<T, TOption> left, Option<T, TOption> right) => left.Equals(right);
 
-        public static bool operator !=(Option<T, TO> left, Option<T, TO> right) => !(left == right);
+        public static bool operator !=(Option<T, TOption> left, Option<T, TOption> right) => !(left == right);
     }
 }

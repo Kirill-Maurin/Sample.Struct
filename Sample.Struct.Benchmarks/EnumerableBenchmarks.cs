@@ -2,6 +2,7 @@
 using System.Linq;
 using BenchmarkDotNet.Attributes;
 using Sample.Struct.Enumerables;
+using Sample.Struct.Summators;
 
 namespace Sample.Struct.Benchmarks
 {
@@ -11,6 +12,9 @@ namespace Sample.Struct.Benchmarks
     {
         [Benchmark(Baseline = true)]
         public void SumArrayBenchmark() => _array.Sum();
+
+        [Benchmark]
+        public void StructGenericSumArrayBenchmark() => _array.AsStructEnumerable().Sum(0.AsAdditive());
 
         [Benchmark]
         public void StructSumArrayBenchmark() => _array.AsStructEnumerable().Sum();

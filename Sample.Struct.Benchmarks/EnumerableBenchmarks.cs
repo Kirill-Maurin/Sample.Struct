@@ -2,6 +2,7 @@
 using System.Linq;
 using BenchmarkDotNet.Attributes;
 using Sample.Struct.Enumerables;
+using Sample.Struct.Indexables;
 using Sample.Struct.Summators;
 
 namespace Sample.Struct.Benchmarks
@@ -12,12 +13,6 @@ namespace Sample.Struct.Benchmarks
     {
         [Benchmark(Baseline = true)]
         public void SumArrayBenchmark() => _array.Sum();
-
-        [Benchmark]
-        public void StructGenericSumArrayBenchmark() => _array.AsStructEnumerable().Sum(0.AsAdditive());
-
-        [Benchmark]
-        public void StructSumArrayBenchmark() => _array.AsStructEnumerable().Sum();
 
         [Benchmark]
         public void SpecialSumArrayBenchmark()
@@ -45,6 +40,16 @@ namespace Sample.Struct.Benchmarks
             for (var i = 0; i < _list.Count; i++)
                 sum += _list[i];
         }
+
+        [Benchmark]
+        public void IndexableSumArrayBenchmark() => _array.AsIndexable().Sum(0.AsAdditive());
+
+        [Benchmark]
+        public void StructSumArrayBenchmark() => _array.AsStructEnumerable().Sum();
+
+        [Benchmark]
+        public void StructGenericSumArrayBenchmark() => _array.AsStructEnumerable().Sum(0.AsAdditive());
+
 
         static int[] _array = Enumerable.Range(0, 1000).ToArray();
         static List<int> _list = _array.ToList();

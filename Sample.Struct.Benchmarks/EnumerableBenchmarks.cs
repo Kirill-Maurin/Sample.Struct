@@ -21,10 +21,7 @@ namespace Sample.Struct.Benchmarks
             foreach (var n in _array)
                 sum += n;
         }
-
-        [Benchmark]
-        public void StructSumListBenchmark() => _list.AsStructEnumerable().Sum();
-        
+       
         [Benchmark]
         public void SpecialSumListBenchmark()
         {
@@ -50,6 +47,11 @@ namespace Sample.Struct.Benchmarks
         [Benchmark]
         public void StructGenericSumArrayBenchmark() => _array.AsStructEnumerable().Sum(0.AsAdditive());
 
+        [Benchmark]
+        public void IndexableSumListBenchmark() => _list.AsIndexable().Sum(0.AsAdditive());
+
+        [Benchmark]
+        public void StructSumListBenchmark() => _list.AsStructEnumerable().Sum();
 
         static int[] _array = Enumerable.Range(0, 1000).ToArray();
         static List<int> _list = _array.ToList();

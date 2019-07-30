@@ -9,11 +9,11 @@ namespace Sample.Struct.Summators
             this Enumerable<T, TEnumerator, TEnumerable> enumerable, Additive<T, TSummator> initial)
             where TEnumerator : IEnumerator<T>
             where TEnumerable : IEnumerable<T, TEnumerator>
-            where TSummator : ISummator<T>
+            where TSummator : struct, ISummator<T>
         {
             var result = initial;
             foreach (var i in enumerable)
-                result += Additive<T, TSummator>.Wrap(i);
+                result += i;
             return result;
         }
     }
@@ -27,6 +27,9 @@ namespace Sample.Struct.Summators
         public T Unwrap { get; }
 
         public static Additive<T, TSummator> operator +(Additive<T, TSummator> left, Additive<T, TSummator> right)
-            => Wrap(default(TSummator).Add(left.Unwrap, right.Unwrap));
+            => default(TSummator).Add(left, right);
+
+        public static implicit operator Additive<T, TSummator>(T value) => Wrap(value);
+        public static implicit operator T(Additive<T, TSummator> value) => value.Unwrap;
     }
 }

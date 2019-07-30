@@ -16,11 +16,11 @@ namespace Sample.Struct.Enumerables
 
         object IEnumerator.Current => Current;
 
-        public void Dispose() {}
+        public void Dispose() { }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool MoveNext()
-        {            
+        {
             if (++_i >= _array.Length)
                 return false;
             Current = _array[_i];

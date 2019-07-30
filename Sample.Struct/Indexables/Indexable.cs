@@ -4,14 +4,14 @@ namespace Sample.Struct.Indexables
 {
     public static class Indexable
     {
-        public static Additive<T, TTypeclass> Sum<T, TTypeclass, TIndexator>(
-            this Indexable<T, int, TIndexator> indexable, Additive<T, TTypeclass> initial)
+        public static Additive<T, TSummator> Sum<T, TSummator, TIndexator>(
+            this Indexable<T, int, TIndexator> indexable, Additive<T, TSummator> initial)
             where TIndexator : IIndexable<T, int>
-            where TTypeclass : ISummator<T>
+            where TSummator : ISummator<T>
         {
             var result = initial;
-            for(var i = 0; i < indexable.Count; i++)
-                result += Additive<T, TTypeclass>.Wrap(indexable[i]);
+            for (var i = 0; i < indexable.Count; i++)
+                result += indexable[i];
             return result;
         }
     }

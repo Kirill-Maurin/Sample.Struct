@@ -5,7 +5,7 @@ namespace Sample.Struct.Summators
 {
     public static class Additive
     {
-        public static Additive<T, TSummator> Sum<T, TSummator, TEnumerable, TEnumerator>(
+        public static T Sum<T, TSummator, TEnumerable, TEnumerator>(
             this Enumerable<T, TEnumerator, TEnumerable> enumerable, Additive<T, TSummator> initial)
             where TEnumerator : IEnumerator<T>
             where TEnumerable : IEnumerable<T, TEnumerator>

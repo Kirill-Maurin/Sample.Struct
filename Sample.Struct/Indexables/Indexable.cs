@@ -4,7 +4,7 @@ namespace Sample.Struct.Indexables
 {
     public static class Indexable
     {
-        public static Additive<T, TSummator> Sum<T, TSummator, TIndexator>(
+        public static T Sum<T, TSummator, TIndexator>(
             this Indexable<T, int, TIndexator> indexable, Additive<T, TSummator> initial)
             where TIndexator : IIndexable<T, int>
             where TSummator : ISummator<T>

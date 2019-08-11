@@ -18,5 +18,4 @@ namespace Sample.Struct.Indexables
 
         public int Count => Unwrap.Count;
     }
-
 }

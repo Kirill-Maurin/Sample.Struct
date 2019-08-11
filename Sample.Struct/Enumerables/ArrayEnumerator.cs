@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -27,6 +28,6 @@ namespace Sample.Struct.Enumerables
             return true;
         }
 
-        public void Reset() => throw new System.NotImplementedException();
+        public void Reset() => throw new NotImplementedException();
     }
 }

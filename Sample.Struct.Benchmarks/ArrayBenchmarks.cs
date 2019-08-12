@@ -15,7 +15,13 @@ namespace Sample.Struct.Benchmarks
         public void IEnumerableIntSequenceEqualArrayBenchmark() => _array.SequenceEqual(_array2);
 
         [Benchmark]
-        public void GenericIndexableSequenceEqualArrayBenchmark() => _array.AsIndexable().SequenceEqual(_array2.AsIndexable(), default(IntComparer));
+        public void GenericIndexableSequenceEqualArrayBenchmark() => _array.AsGenericIndexable().SequenceEqual(_array2, default(IntComparer));
+
+        [Benchmark]
+        public void StructIndexableSequenceEqualArrayBenchmark() => _array.AsStructIndexable().SequenceEqual(_array2.AsStructIndexable(), default(IntComparer));
+
+        [Benchmark]
+        public void IndexableSequenceEqualArrayBenchmark() => _array.AsIndexable().SequenceEqual(_array2.AsIndexable(), default(IntComparer));
 
         [Benchmark]
         public void ForSequenceEqualArrayBenchmark() => ForSequenceEqual(_array, _array2);

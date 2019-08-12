@@ -9,4 +9,10 @@ namespace Sample.Struct.Indexables
         TIndex Count { get; }
         T this[TIndex index] { get; }
     }
+
+    public interface IIndexator<out T, TIndex, in TIndexable>
+    {
+        TIndex GetCount(TIndexable indexable);
+        T GetItem(TIndexable indexable, TIndex index);
+    }
 }

@@ -9,12 +9,35 @@ namespace Sample.Struct.Equatables
         public static Equatable<int, IntComparer> AsEquatable(this int value) 
             => new Equatable<int, IntComparer>(value);
 
+        public static Equatable<T, TComparer> AsEquatable<T, TComparer>(this T value, TComparer _)
+            where TComparer: struct, IEqualityComparer<T>
+            => new Equatable<T, TComparer>(value);
+
         public static Equatable<T, DefaultComparer<T>> AsDefaultEquatable<T>(this T value)
             => new Equatable<T, DefaultComparer<T>>(value);
 
         public static bool SequenceEqual<T, TIndexable, TComparer>(this Indexable<T, int, TIndexable> left, Indexable<T, int, TIndexable> right, TComparer _)
-            where TIndexable: IIndexable<T, int>
+            where TIndexable : struct, IIndexable<T, int>
+            where TComparer : struct, IEqualityComparer<T>
+        {
+            if (left.Count != right.Count)
+                return false;
+
+            for (var i = 0; i < left.Count; i++)
+                if (left[i].AsEquatable(_) != right[i])
+                    return false;
+
+            return true;
+        }
+
+        public static bool SequenceEqual<T, TIndexable, TIndexator, TComparer>
+        (
+            this Indexable<T, int, TIndexable, TIndexator> left, 
+            Indexable<T, int, TIndexable, TIndexator> right, 
+            TComparer _
+        )
             where TComparer: struct, IEqualityComparer<T>
+            where TIndexator: struct, IIndexator<T, int, TIndexable>
         {
             if (left.Count != right.Count)
                 return false;

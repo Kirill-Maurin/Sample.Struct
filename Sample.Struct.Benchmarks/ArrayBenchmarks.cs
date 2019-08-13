@@ -24,6 +24,9 @@ namespace Sample.Struct.Benchmarks
         public void IndexableSequenceEqualArrayBenchmark() => _array.AsIndexable().SequenceEqual(_array2.AsIndexable(), default(IntComparer));
 
         [Benchmark]
+        public void IndexableSequenceEqualDefaultArrayBenchmark() => _array.AsIndexable().SequenceEqual(_array2.AsIndexable(), default(DefaultComparer<int>));
+
+        [Benchmark]
         public void ForSequenceEqualArrayBenchmark() => ForSequenceEqual(_array, _array2);
 
         public bool ForSequenceEqual(int[] left, int[] right)

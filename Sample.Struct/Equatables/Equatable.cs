@@ -43,7 +43,7 @@ namespace Sample.Struct.Equatables
                 return false;
 
             for (var i = 0; i < left.Count; i++)
-                if (new Equatable<T, TComparer>(left[i]) != right[i])
+                if (left[i].AsEquatable(_) != right[i])
                     return false;
 
             return true;

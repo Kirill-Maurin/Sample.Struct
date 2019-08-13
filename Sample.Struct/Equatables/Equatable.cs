@@ -18,6 +18,12 @@ namespace Sample.Struct.Equatables
             => new Equatable<T, DefaultComparer<T>>(value);
 
         public static bool SequenceEqual<T, TIndexable, TComparer>(this Indexable<T, int, TIndexable> left, Indexable<T, int, TIndexable> right, TComparer _)
+        public static bool SequenceEqual<T, TIndexable, TComparer>
+        (
+            this Indexable<T, int, TIndexable> left,
+            Indexable<T, int, TIndexable> right,
+            TComparer _
+        )
             where TIndexable : struct, IIndexable<T, int>
             where TComparer : struct, IEqualityComparer<T>
         {

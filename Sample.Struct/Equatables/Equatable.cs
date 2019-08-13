@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Sample.Struct.Indexables;
 
 namespace Sample.Struct.Equatables
@@ -30,6 +31,7 @@ namespace Sample.Struct.Equatables
             return true;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool SequenceEqual<T, TIndexable, TIndexator, TComparer>
         (
             this Indexable<T, int, TIndexable, TIndexator> left, 

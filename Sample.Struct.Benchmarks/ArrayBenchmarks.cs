@@ -27,6 +27,9 @@ namespace Sample.Struct.Benchmarks
         public void IndexableSequenceEqualDefaultArrayBenchmark() => _array.AsIndexable().SequenceEqual(_array2.AsIndexable(), default(DefaultComparer<int>));
 
         [Benchmark]
+        public void IndexableSequenceEqualObjectArrayBenchmark() => _objArray.AsIndexable().SequenceEqual(_objArray2.AsIndexable(), default(ObjectComparer));
+
+        [Benchmark]
         public void ForSequenceEqualArrayBenchmark() => ForSequenceEqual(_array, _array2);
 
         public bool ForSequenceEqual(int[] left, int[] right)
@@ -71,6 +74,10 @@ namespace Sample.Struct.Benchmarks
         static int[] _array = Enumerable.Range(0, 1000).ToArray();
 
         static int[] _array2 = Enumerable.Range(0, 999).Concat(new int[] { 0 }).ToArray();
+
+        static object[] _objArray = _array.Cast<object>().ToArray();
+
+        static object[] _objArray2 = _objArray.ToArray();
 
         public static int ForeachSum(int[] array)
         {

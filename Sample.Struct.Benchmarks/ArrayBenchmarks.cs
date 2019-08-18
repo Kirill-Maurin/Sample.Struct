@@ -63,6 +63,9 @@ namespace Sample.Struct.Benchmarks
         public void GenericEnumerableIntSumArrayBenchmark() => _array.AsStructEnumerable().Sum();
 
         [Benchmark]
+        public void GenericEnumerableIntCheckedSumArrayBenchmark() => _array.AsStructEnumerable().Sum(0.AsCheckedAdditive());
+
+        [Benchmark]
         public void GenericEnumerableSumArrayBenchmark() => _array.AsStructEnumerable().Sum(0.AsAdditive());
 
         [Benchmark]
@@ -71,7 +74,7 @@ namespace Sample.Struct.Benchmarks
         [Benchmark]
         public void GenericIndexableSumArrayBenchmark() => _array.AsIndexable().Sum(0.AsAdditive());
 
-        static int[] _array = Enumerable.Range(int.MaxValue - 1000, 1000).ToArray();
+        static int[] _array = Enumerable.Range(0, 1000).ToArray();
 
         static int[] _array2 = Enumerable.Range(0, 999).Concat(new int[] { 0 }).ToArray();
 

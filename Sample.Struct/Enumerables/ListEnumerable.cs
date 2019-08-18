@@ -11,11 +11,11 @@ namespace Sample.Struct.Enumerables
 
     public readonly struct ListEnumerable<T> : IEnumerable<T, List<T>.Enumerator>
     {
-        internal ListEnumerable(List<T> unwrap) => Unwrap = unwrap;
+        internal ListEnumerable(List<T> unwrap) => Value = unwrap;
 
-        public List<T> Unwrap { get; }
+        public List<T> Value { get; }
 
-        public List<T>.Enumerator GetEnumerator() => Unwrap.GetEnumerator();
+        public List<T>.Enumerator GetEnumerator() => Value.GetEnumerator();
 
         IEnumerator<T> IEnumerable<T>.GetEnumerator() => GetEnumerator();
 

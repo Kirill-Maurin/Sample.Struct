@@ -7,11 +7,11 @@ namespace Sample.Struct.Enumerables
         where TEnumerator : IEnumerator<T> 
         where TEnumerable : IEnumerable<T, TEnumerator>
     {        
-        public Enumerable(TEnumerable unwrap) => Unwrap = unwrap;
+        public Enumerable(TEnumerable unwrap) => Value = unwrap;
 
-        public TEnumerable Unwrap { get; }
+        public TEnumerable Value { get; }
 
-        public TEnumerator GetEnumerator() => Unwrap.GetEnumerator();
+        public TEnumerator GetEnumerator() => Value.GetEnumerator();
 
         IEnumerator<T> IEnumerable<T>.GetEnumerator() => GetEnumerator();
 
@@ -20,11 +20,11 @@ namespace Sample.Struct.Enumerables
 
     public readonly struct Enumerable<T> : IEnumerable<T, IEnumerator<T>>
     {
-        internal Enumerable(IEnumerable<T> unwrap) => Unwrap = unwrap;
+        internal Enumerable(IEnumerable<T> unwrap) => Value = unwrap;
 
-        public IEnumerable<T> Unwrap { get; }
+        public IEnumerable<T> Value { get; }
 
-        public IEnumerator<T> GetEnumerator() => Unwrap.GetEnumerator();
+        public IEnumerator<T> GetEnumerator() => Value.GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }

@@ -34,29 +34,29 @@ namespace Sample.Struct.Summators
     {
         public static Additive<T, TSummator> Wrap(T value) => new Additive<T, TSummator>(value);
 
-        internal Additive(T value) => Unwrap = value;
+        internal Additive(T value) => Value = value;
 
-        public T Unwrap { get; }
+        public T Value { get; }
 
         public static Additive<T, TSummator> operator +(Additive<T, TSummator> left, Additive<T, TSummator> right)
             => default(TSummator).Add(left, right);
 
         public static implicit operator Additive<T, TSummator>(T value) => Wrap(value);
-        public static implicit operator T(Additive<T, TSummator> value) => value.Unwrap;
+        public static implicit operator T(Additive<T, TSummator> value) => value.Value;
     }
 
     public struct Additive<TAccumulator, TIncrement, TSummator> 
         where TSummator : struct, ISummator<TAccumulator, TIncrement>
     {
-        public TAccumulator Unwrap { get; }
+        public TAccumulator Value { get; }
 
         public static Additive<TAccumulator, TIncrement, TSummator> operator +
             (Additive<TAccumulator, TIncrement, TSummator> left, TIncrement right)
             => default(TSummator).Add(left, right);
 
         public static implicit operator Additive<TAccumulator, TIncrement, TSummator>(TAccumulator value) => new Additive<TAccumulator, TIncrement, TSummator>(value);
-        public static implicit operator TAccumulator(Additive<TAccumulator, TIncrement, TSummator> value) => value.Unwrap;
+        public static implicit operator TAccumulator(Additive<TAccumulator, TIncrement, TSummator> value) => value.Value;
 
-        Additive(TAccumulator value) => Unwrap = value;
+        Additive(TAccumulator value) => Value = value;
     }
 }

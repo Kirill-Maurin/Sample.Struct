@@ -14,15 +14,15 @@
 
     public struct ArrayIndexable<T> : IIndexable<T, int>
     {
-        internal ArrayIndexable(T[] value) => Unwrap = value;
+        internal ArrayIndexable(T[] value) => Value = value;
 
-        public T[] Unwrap { get; }
+        public T[] Value { get; }
 
-        public T this[int index] => Unwrap[index];
+        public T this[int index] => Value[index];
 
-        public int Count => Unwrap.Length;
+        public int Count => Value.Length;
 
         public static implicit operator ArrayIndexable<T>(T[] array) => new ArrayIndexable<T>(array);
-        public static implicit operator T[](ArrayIndexable<T> value) => value.Unwrap;
+        public static implicit operator T[](ArrayIndexable<T> value) => value.Value;
     }
 }

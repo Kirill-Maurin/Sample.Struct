@@ -18,14 +18,14 @@ namespace Sample.Struct
     public readonly struct Id<T, TKey> : IEquatable<Id<T, TKey>>
         where T : IEntity<TKey>
     {
-        internal Id(TKey id) => Unwrap = id;
-        public TKey Unwrap { get; }
+        internal Id(TKey id) => Value = id;
+        public TKey Value { get; }
 
         public override bool Equals(object obj) => obj is Id<T, TKey> id && Equals(id);
 
-        public bool Equals(Id<T, TKey> other) => EqualityComparer<TKey>.Default.Equals(Unwrap, other.Unwrap);
+        public bool Equals(Id<T, TKey> other) => EqualityComparer<TKey>.Default.Equals(Value, other.Value);
 
-        public override int GetHashCode() => Unwrap.GetHashCode();
+        public override int GetHashCode() => Value.GetHashCode();
 
         public static bool operator ==(Id<T, TKey> left, Id<T, TKey> right) => left.Equals(right);
 

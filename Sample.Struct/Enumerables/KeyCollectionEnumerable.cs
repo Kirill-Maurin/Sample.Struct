@@ -13,11 +13,11 @@ namespace Sample.Struct.Enumerables
 
     public readonly struct KeyCollectionEnumerable<TKey, T> : IEnumerable<TKey, Dictionary<TKey, T>.KeyCollection.Enumerator>
     {
-        internal KeyCollectionEnumerable(Dictionary<TKey, T>.KeyCollection unwrap) => Unwrap = unwrap;
+        internal KeyCollectionEnumerable(Dictionary<TKey, T>.KeyCollection unwrap) => Value = unwrap;
 
-        public Dictionary<TKey, T>.KeyCollection Unwrap { get; }
+        public Dictionary<TKey, T>.KeyCollection Value { get; }
 
-        public Dictionary<TKey, T>.KeyCollection.Enumerator GetEnumerator() => Unwrap.GetEnumerator();
+        public Dictionary<TKey, T>.KeyCollection.Enumerator GetEnumerator() => Value.GetEnumerator();
 
         IEnumerator<TKey> IEnumerable<TKey>.GetEnumerator() => GetEnumerator();
 

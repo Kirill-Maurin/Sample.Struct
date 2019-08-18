@@ -19,14 +19,14 @@ namespace Sample.Struct.Enumerables
         where TAble : IEnumerable<T, TAtor>
     {
         internal SelectEnumerable(in Enumerable<T, TAtor, TAble> unwrap, Func<T, TOut> selector)
-            => (Unwrap, _selector) = (unwrap, selector);
+            => (Value, _selector) = (unwrap, selector);
 
-        public Enumerable<T, TAtor, TAble> Unwrap { get; }
+        public Enumerable<T, TAtor, TAble> Value { get; }
 
         readonly Func<T, TOut> _selector;
 
         public SelectEnumerator<T, TOut, TAtor> GetEnumerator()
-            => new SelectEnumerator<T, TOut, TAtor>(Unwrap.GetEnumerator(), _selector);
+            => new SelectEnumerator<T, TOut, TAtor>(Value.GetEnumerator(), _selector);
 
         IEnumerator<TOut> IEnumerable<TOut>.GetEnumerator() => GetEnumerator();
 

@@ -15,7 +15,7 @@ namespace Sample.Struct.Options
         [CanBeNull]
         public static T AsReference<T>(this Option<T> option) where T : class => option.TryGetValue(out var reference) ? reference : null;
         [CanBeNull]
-        public static T AsReference<T>(this Option<T, Option<T>> option) where T : class => option.Unwrap.AsReference();
+        public static T AsReference<T>(this Option<T, Option<T>> option) where T : class => option.Value.AsReference();
     }
 
     public readonly struct Option<T> : IOption<T>, IEquatable<Option<T>> where T : class
@@ -36,7 +36,7 @@ namespace Sample.Struct.Options
         T Value { get; }
 
         public bool Equals(Option<T> other) => HasValue == other.HasValue && (!HasValue || EqualityComparer<T>.Default.Equals(Value, other.Value));
-        public bool Equals(Option<T, Option<T>> other) => Equals(other.Unwrap);
+        public bool Equals(Option<T, Option<T>> other) => Equals(other.Value);
         public static implicit operator Option<T>(T reference) => new Option<T>(reference);
         public static implicit operator Option<T, Option<T>>(Option<T> option) => option.AsOption();
 
@@ -47,20 +47,20 @@ namespace Sample.Struct.Options
 
     public readonly struct Option<T, TOption> : IOption<T>, IEquatable<Option<T, TOption>> where TOption : IOption<T>
     {
-        public Option(in TOption option) => Unwrap = option;
+        public Option(in TOption option) => Value = option;
 
-        public bool TryGetValue(out NotNull<T> value) => Unwrap.TryGetValue(out value);
+        public bool TryGetValue(out NotNull<T> value) => Value.TryGetValue(out value);
 
         public override bool Equals(object obj) => obj is Option<T, TOption> option && Equals(option);
-        public override int GetHashCode() => Unwrap.GetHashCode();
-        public override string ToString() => Unwrap.ToString();
+        public override int GetHashCode() => Value.GetHashCode();
+        public override string ToString() => Value.ToString();
 
-        public bool HasValue => Unwrap.HasValue;
-        public TOption Unwrap { get; }
+        public bool HasValue => Value.HasValue;
+        public TOption Value { get; }
 
-        public bool Equals(Option<T, TOption> other) => Unwrap.Equals(other.Unwrap);
-        public bool Equals(TOption other) => other.Equals(Unwrap);
-        public static implicit operator TOption(Option<T, TOption> t) => t.Unwrap;
+        public bool Equals(Option<T, TOption> other) => Value.Equals(other.Value);
+        public bool Equals(TOption other) => other.Equals(Value);
+        public static implicit operator TOption(Option<T, TOption> t) => t.Value;
 
         public static bool operator ==(Option<T, TOption> left, Option<T, TOption> right) => left.Equals(right);
 

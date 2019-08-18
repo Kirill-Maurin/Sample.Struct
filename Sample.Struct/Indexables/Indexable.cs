@@ -19,28 +19,28 @@ namespace Sample.Struct.Indexables
     public struct Indexable<T, TIndex, TIndexable> : IIndexable<T, TIndex>
         where TIndexable : struct, IIndexable<T, TIndex>
     {
-        public Indexable(TIndexable indexable) => Unwrap = indexable;
+        public Indexable(TIndexable indexable) => Value = indexable;
 
-        public TIndexable Unwrap { get; }
+        public TIndexable Value { get; }
 
-        public T this[TIndex index] => Unwrap[index];
+        public T this[TIndex index] => Value[index];
 
-        public TIndex Count => Unwrap.Count;
+        public TIndex Count => Value.Count;
     }
 
     public struct Indexable<T, TIndex, TIndexable, TIndexator> 
         where TIndexator : struct, IIndexator<T, TIndex, TIndexable>
     {
-        public Indexable(TIndexable indexable) => Unwrap = indexable;
+        public Indexable(TIndexable indexable) => Value = indexable;
 
-        public TIndexable Unwrap { get; }
+        public TIndexable Value { get; }
 
-        public T this[TIndex index] => default(TIndexator).GetItem(Unwrap, index);
+        public T this[TIndex index] => default(TIndexator).GetItem(Value, index);
 
-        public TIndex Count => default(TIndexator).GetCount(Unwrap);
+        public TIndex Count => default(TIndexator).GetCount(Value);
 
         public static implicit operator Indexable<T, TIndex, TIndexable, TIndexator>(TIndexable value) => new Indexable<T, TIndex, TIndexable, TIndexator>(value);
-        public static implicit operator TIndexable(Indexable<T, TIndex, TIndexable, TIndexator> value) => value.Unwrap;
+        public static implicit operator TIndexable(Indexable<T, TIndex, TIndexable, TIndexator> value) => value.Value;
     }
 
 }

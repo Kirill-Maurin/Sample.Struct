@@ -19,14 +19,14 @@ namespace Sample.Struct.Enumerables
         where TAble: IEnumerable<T, TAtor>
     {
         internal WhereEnumerable(in Enumerable<T, TAtor, TAble> unwrap, Func<T, bool> predicate) 
-            => (Unwrap, _predicate) = (unwrap, predicate);
+            => (Value, _predicate) = (unwrap, predicate);
 
-        public Enumerable<T, TAtor, TAble> Unwrap { get; }
+        public Enumerable<T, TAtor, TAble> Value { get; }
 
         readonly Func<T, bool> _predicate;
 
         public WhereEnumerator<T, TAtor> GetEnumerator() 
-            => new WhereEnumerator<T, TAtor>(Unwrap.GetEnumerator(), _predicate);
+            => new WhereEnumerator<T, TAtor>(Value.GetEnumerator(), _predicate);
 
         IEnumerator<T> IEnumerable<T>.GetEnumerator() => GetEnumerator();
 

@@ -10,12 +10,12 @@ namespace Sample.Struct.Indexables
 
     public struct ListIndexable<T> : IIndexable<T, int>
     {
-        internal ListIndexable(List<T> value) => Unwrap = value;
+        internal ListIndexable(List<T> value) => Value = value;
 
-        public List<T> Unwrap { get; }
+        public List<T> Value { get; }
 
-        public T this[int index] => Unwrap[index];
+        public T this[int index] => Value[index];
 
-        public int Count => Unwrap.Count;
+        public int Count => Value.Count;
     }
 }

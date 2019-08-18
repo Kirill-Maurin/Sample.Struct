@@ -55,7 +55,7 @@ namespace Sample.Struct.Benchmarks
                 var o = objects[i].EnsureNotNull();
                 for (var _ = 0; _ < checkCount; _++)
                 {
-                    o.Unwrap.ToString();
+                    o.Value.ToString();
                 }
             }
         }
@@ -67,7 +67,7 @@ namespace Sample.Struct.Benchmarks
                 var o = objects[i].CannotBeNull();
                 for (var _ = 0; _ < checkCount; _++)
                 {
-                    o.Unwrap.ToString();
+                    o.Value.ToString();
                 }
             }
         }

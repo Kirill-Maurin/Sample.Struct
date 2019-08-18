@@ -32,18 +32,18 @@ namespace Sample.Struct
 
     public readonly struct NotNull<T> : IEquatable<NotNull<T>>
     {
-        internal NotNull([NotNull]T unwrap) => Unwrap = unwrap;
+        internal NotNull([NotNull]T unwrap) => Value = unwrap;
 
         [NotNull]
-        public T Unwrap { get; }
+        public T Value { get; }
 
-        public override int GetHashCode() => Unwrap.GetHashCode();
-        public override string ToString() => $"NotNull {Unwrap}";
+        public override int GetHashCode() => Value.GetHashCode();
+        public override string ToString() => $"NotNull {Value}";
         public override bool Equals(object obj) => obj is NotNull<T> notNull && Equals(notNull);
-        public bool Equals(NotNull<T> other) => Unwrap.Equals(other.Unwrap);
+        public bool Equals(NotNull<T> other) => Value.Equals(other.Value);
         public static bool operator ==(NotNull<T> left, NotNull<T> right) => left.Equals(right);
         public static bool operator !=(NotNull<T> left, NotNull<T> right) => !left.Equals(right);
-        public static implicit operator T(NotNull<T> t) => t.Unwrap;
+        public static implicit operator T(NotNull<T> t) => t.Value;
         public static implicit operator NotNull<T>(T value) => value.EnsureNotNull();
     }
 }

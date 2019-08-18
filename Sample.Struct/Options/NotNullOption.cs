@@ -9,22 +9,22 @@ namespace Sample.Struct.Options
 
     public readonly struct NotNullOption<T> : IOption<T>, IEquatable<NotNullOption<T>>
     {
-        internal NotNullOption(NotNull<T> value) => Unwrap = value;
+        internal NotNullOption(NotNull<T> value) => Value = value;
 
-        NotNull<T> Unwrap { get; }
+        NotNull<T> Value { get; }
 
         public bool TryGetValue(out NotNull<T> value)
         {
-            value = Unwrap;
+            value = Value;
             return true;
         }
 
         public bool HasValue => true;
 
-        public override int GetHashCode() => Unwrap.GetHashCode();
-        public override string ToString() => Unwrap.ToString();
+        public override int GetHashCode() => Value.GetHashCode();
+        public override string ToString() => Value.ToString();
         public override bool Equals(object obj) => obj is NotNullOption<T> option && Equals(option);
-        public bool Equals(NotNullOption<T> other) => Unwrap.Equals(other.Unwrap);
+        public bool Equals(NotNullOption<T> other) => Value.Equals(other.Value);
         public static bool operator ==(NotNullOption<T> left, NotNullOption<T> right) => left.Equals(right);
         public static bool operator !=(NotNullOption<T> left, NotNullOption<T> right) => !left.Equals(right);
     }

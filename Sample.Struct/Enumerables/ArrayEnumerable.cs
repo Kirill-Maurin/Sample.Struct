@@ -11,11 +11,11 @@ namespace Sample.Struct.Enumerables
 
     public readonly struct ArrayEnumerable<T> : IEnumerable<T, ArrayEnumerator<T>>
     {
-        internal ArrayEnumerable(T[] unwrap) => Unwrap = unwrap;
+        internal ArrayEnumerable(T[] unwrap) => Value = unwrap;
 
-        public T[] Unwrap { get; }
+        public T[] Value { get; }
 
-        public ArrayEnumerator<T> GetEnumerator() => new ArrayEnumerator<T>(Unwrap);
+        public ArrayEnumerator<T> GetEnumerator() => new ArrayEnumerator<T>(Value);
 
         IEnumerator<T> IEnumerable<T>.GetEnumerator() => GetEnumerator();
 

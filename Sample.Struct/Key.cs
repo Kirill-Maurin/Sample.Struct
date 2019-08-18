@@ -11,15 +11,15 @@ namespace Sample.Struct
 
     public readonly struct Key<T, TKey> : IEquatable<Key<T, TKey>>
     {
-        internal Key(TKey id) => Unwrap = id;
+        internal Key(TKey id) => Value = id;
 
-        public TKey Unwrap { get; }
+        public TKey Value { get; }
 
         public override bool Equals(object obj) => obj is Key<T, TKey> id && Equals(id);
 
-        public bool Equals(Key<T, TKey> other) => EqualityComparer<TKey>.Default.Equals(Unwrap, other.Unwrap);
+        public bool Equals(Key<T, TKey> other) => EqualityComparer<TKey>.Default.Equals(Value, other.Value);
 
-        public override int GetHashCode() => Unwrap.GetHashCode();
+        public override int GetHashCode() => Value.GetHashCode();
 
         public static bool operator ==(Key<T, TKey> left, Key<T, TKey> right) => left.Equals(right);
 

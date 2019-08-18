@@ -4,4 +4,9 @@
     {
         public int Add(int left, int right) => left + right;
     }
+
+    public struct IntIncrementalSummator : ISummator<long, int>
+    {
+        public long Add(long left, int right) => left + right;
+    }
 }

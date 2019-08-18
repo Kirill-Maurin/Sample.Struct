@@ -7,4 +7,9 @@ namespace Sample.Struct.Summators
     {
         T Add(T left, T right);
     }
+
+    public interface ISummator<T, TIncrement>
+    {
+        T Add(T left, TIncrement right);
+    }
 }

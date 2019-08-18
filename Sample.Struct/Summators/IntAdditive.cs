@@ -2,6 +2,7 @@
 {
     public static class IntAdditive
     {
-        public static Additive<int, IntSummator> AsAdditive(this int value) => Additive<int, IntSummator>.Wrap(value);
+        public static Additive<int, IntSummator> AsAdditive(this int value) => value;
+        public static Additive<long, int, IntIncrementalSummator> AsAccumulator(this int value) => value;
     }
 }

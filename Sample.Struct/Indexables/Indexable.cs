@@ -7,7 +7,7 @@ namespace Sample.Struct.Indexables
         public static T Sum<T, TSummator, TIndexable>(
             this Indexable<T, int, TIndexable> indexable, Additive<T, TSummator> initial)
             where TIndexable : struct, IIndexable<T, int>
-            where TSummator : ISummator<T>
+            where TSummator : struct, ISummator<T>
         {
             var result = initial;
             for (var i = 0; i < indexable.Count; i++)

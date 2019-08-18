@@ -12,19 +12,19 @@ namespace Sample.Struct.Equatables
 
         public static Equatable<T, TComparer> AsEquatable<T, TComparer>(this T value, TComparer _)
             where TComparer: struct, IEqualityComparer<T>
-            => new Equatable<T, TComparer>(value);
+            => value;
 
         public static Equatable<T, DefaultComparer<T>> AsDefaultEquatable<T>(this T value)
             => new Equatable<T, DefaultComparer<T>>(value);
 
-        public static bool SequenceEqual<T, TIndexable, TComparer>(this Indexable<T, int, TIndexable> left, Indexable<T, int, TIndexable> right, TComparer _)
-        public static bool SequenceEqual<T, TIndexable, TComparer>
+        public static bool SequenceEqual<T, TLeftIndexable, TRightIndexable, TComparer>
         (
-            this Indexable<T, int, TIndexable> left,
-            Indexable<T, int, TIndexable> right,
+            this Indexable<T, int, TLeftIndexable> left,
+            Indexable<T, int, TRightIndexable> right,
             TComparer _
         )
-            where TIndexable : struct, IIndexable<T, int>
+            where TLeftIndexable : struct, IIndexable<T, int>
+            where TRightIndexable : struct, IIndexable<T, int>
             where TComparer : struct, IEqualityComparer<T>
         {
             if (left.Count != right.Count)

@@ -15,7 +15,7 @@ namespace Sample.Struct.Benchmarks
         public void IEnumerableIntSequenceEqualArrayBenchmark() => _array.SequenceEqual(_array2);
 
         [Benchmark]
-        public void GenericIndexableSequenceEqualArrayBenchmark() => _array.AsGenericIndexable().SequenceEqual(_array2, default(IntComparer));
+        public void GenericIndexableSequenceEqualArrayBenchmark() => _array.AsGenericIndexable().SequenceEqual(_array2.AsGenericIndexable(), default(IntComparer));
 
         [Benchmark]
         public void StructIndexableSequenceEqualArrayBenchmark() => _array.AsStructIndexable().SequenceEqual(_array2.AsStructIndexable(), default(IntComparer));
@@ -60,18 +60,18 @@ namespace Sample.Struct.Benchmarks
         public void GenericIEnumerableIntSumArrayBenchmark() => _array.AsEnumerable().AsStructEnumerable().Sum();
 
         [Benchmark]
-        public void GenericIEnumerableSumArrayBenchmark() => _array.AsEnumerable().AsStructEnumerable().Sum();
-
-        [Benchmark]
         public void GenericEnumerableIntSumArrayBenchmark() => _array.AsStructEnumerable().Sum();
 
         [Benchmark]
         public void GenericEnumerableSumArrayBenchmark() => _array.AsStructEnumerable().Sum(0.AsAdditive());
 
         [Benchmark]
+        public void GenericEnumerableLongSumArrayBenchmark() => _array.AsStructEnumerable().Sum(0.AsAccumulator());
+
+        [Benchmark]
         public void GenericIndexableSumArrayBenchmark() => _array.AsIndexable().Sum(0.AsAdditive());
 
-        static int[] _array = Enumerable.Range(0, 1000).ToArray();
+        static int[] _array = Enumerable.Range(int.MaxValue - 1000, 1000).ToArray();
 
         static int[] _array2 = Enumerable.Range(0, 999).Concat(new int[] { 0 }).ToArray();
 

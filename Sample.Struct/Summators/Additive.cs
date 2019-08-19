@@ -28,6 +28,33 @@ namespace Sample.Struct.Summators
                 result += i;
             return result;
         }
+
+        /*
+        public static T Sum<T>(this T[] array, T initial)
+        {
+            var result = initial;
+            for (var i = 0; i < array.Length; i++)
+                result += array[i];
+            return result;
+        }
+        */
+
+        public static T Sum<T>(this T[] array, T initial, ISummator<T> summator)
+        {
+            var result = initial;
+            for (var i = 0; i < array.Length; i++)
+                result = summator.Add(result, array[i]);
+            return result;
+        }
+
+        public static T Sum<T, TSummator>(this T[] array, T initial, TSummator summator)
+            where TSummator : ISummator<T>
+        {
+            var result = initial;
+            for (var i = 0; i < array.Length; i++)
+                result = summator.Add(result, array[i]);
+            return result;
+        }
     }
 
     public struct Additive<T, TSummator> where TSummator : struct, ISummator<T>

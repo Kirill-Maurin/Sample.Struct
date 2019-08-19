@@ -7,11 +7,26 @@ using Sample.Struct.Summators;
 
 namespace Sample.Struct.Benchmarks
 {
+    [MemoryDiagnoser]
+    [Config(typeof(Runtimes))]
     public class ArraySumBenchmarks
     {
         [Benchmark(Baseline = true)]
         public void LinqSumArrayBenchmark() => _array.Sum();
 
+        [Benchmark]
+        public void AggregateSumArrayBenchmark() => _array.Aggregate((l, r) => l+r);
+
+        [Benchmark]
+        public void ForSumArrayBenchmark() => ForSum(_array);
+
+        [Benchmark]
+        public void GenericSumArrayBenchmark() => _array.Sum<int>(0, new IntSummator());
+
+        [Benchmark]
+        public void Generic2SumArrayBenchmark() => _array.Sum(0, new IntSummator());
+
+        [Benchmark]
         public void IEnumerableIntSumArrayBenchmark() => Sum(_array);
 
         public static int Sum(IEnumerable<int> source)
@@ -28,8 +43,6 @@ namespace Sample.Struct.Benchmarks
         [Benchmark]
         public void ForEachSumArrayBenchmark() => ForeachSum(_array);
 
-        [Benchmark]
-        public void ForSumArrayBenchmark() => ForSum(_array);
 
         [Benchmark]
         public void GenericIEnumerableIntSumArrayBenchmark() => _array.AsEnumerable().AsStructEnumerable().Sum();
@@ -48,7 +61,7 @@ namespace Sample.Struct.Benchmarks
 
         [Benchmark]
         public void GenericIndexableSumArrayBenchmark() => _array.AsIndexable().Sum(0.AsAdditive());
-
+        
         static int[] _array = Enumerable.Range(0, 1000).ToArray();
 
         public static int ForeachSum(int[] array)

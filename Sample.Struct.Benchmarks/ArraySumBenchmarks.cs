@@ -42,6 +42,9 @@ namespace Sample.Struct.Benchmarks
         public void GenericLongSumArrayBenchmark() => _array.Sum(0L.AsAccumulator());
 
         [Benchmark]
+        public void GenericIndexableSumArrayBenchmark() => _array.AsGenericIndexable().Sum(0L.AsAccumulator());
+
+        [Benchmark]
         public void IEnumerableIntSumArrayBenchmark() => Sum(_array);
 
         public static int Sum(IEnumerable<int> source)

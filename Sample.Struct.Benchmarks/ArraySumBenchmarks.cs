@@ -36,6 +36,9 @@ namespace Sample.Struct.Benchmarks
         public void Generic5SumArrayBenchmark() => _array.Sum(0.AsAdditive());
 
         [Benchmark]
+        public void GenericCheckedSumArrayBenchmark() => _array.Sum(0.AsCheckedAdditive());
+
+        [Benchmark]
         public void IEnumerableIntSumArrayBenchmark() => Sum(_array);
 
         public static int Sum(IEnumerable<int> source)

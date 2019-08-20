@@ -47,7 +47,7 @@ namespace Sample.Struct.Summators
             return result;
         }
 
-        public static T Sum<T, TSummator>(this T[] array, T initial, TSummator summator)
+        public static T Sum2<T, TSummator>(this T[] array, T initial, TSummator summator)
             where TSummator : ISummator<T>
         {
             var result = initial;
@@ -55,20 +55,39 @@ namespace Sample.Struct.Summators
                 result = summator.Add(result, array[i]);
             return result;
         }
+
+        public static T Sum<T, TSummator>(this T[] array, T initial, TSummator summator = default)
+            where TSummator : struct, ISummator<T>
+        {
+            var result = initial;
+            for (var i = 0; i < array.Length; i++)
+                result = summator.Add(result, array[i]);
+            return result;
+        }
+
+        public static T Sum<T, TSummator>(this T[] array, Additive<T, TSummator> initial)
+            where TSummator : struct, ISummator<T>
+        {
+            var result = initial;
+            for (var i = 0; i < array.Length; i++)
+                result += array[i];
+            return result;
+        }
     }
 
     public struct Additive<T, TSummator> where TSummator : struct, ISummator<T>
     {
-        public static Additive<T, TSummator> Wrap(T value) => new Additive<T, TSummator>(value);
-
-        internal Additive(T value) => Value = value;
+        Additive(T value) => Value = value;
 
         public T Value { get; }
 
         public static Additive<T, TSummator> operator +(Additive<T, TSummator> left, Additive<T, TSummator> right)
-            => default(TSummator).Add(left, right);
+        {
+            var summator = default(TSummator);
+            return summator.Add(left, right);
+        }
 
-        public static implicit operator Additive<T, TSummator>(T value) => Wrap(value);
+        public static implicit operator Additive<T, TSummator>(T value) => new Additive<T, TSummator>(value);
         public static implicit operator T(Additive<T, TSummator> value) => value.Value;
     }
 

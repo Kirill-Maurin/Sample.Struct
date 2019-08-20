@@ -19,12 +19,21 @@ namespace Sample.Struct.Benchmarks
 
         [Benchmark]
         public void ForSumArrayBenchmark() => ForSum(_array);
-
+                
         [Benchmark]
         public void GenericSumArrayBenchmark() => _array.Sum<int>(0, new IntSummator());
 
         [Benchmark]
-        public void Generic2SumArrayBenchmark() => _array.Sum(0, new IntSummator());
+        public void Generic2SumArrayBenchmark() => _array.Sum2(0, new IntSummator());
+
+        [Benchmark]
+        public void Generic3SumArrayBenchmark() => _array.Sum<int, IntSummator>(0);
+        
+        [Benchmark]
+        public void Generic4SumArrayBenchmark() => _array.Sum(0.AsAdditive2());
+
+        [Benchmark]
+        public void Generic5SumArrayBenchmark() => _array.Sum(0.AsAdditive());
 
         [Benchmark]
         public void IEnumerableIntSumArrayBenchmark() => Sum(_array);
@@ -61,7 +70,7 @@ namespace Sample.Struct.Benchmarks
 
         [Benchmark]
         public void GenericIndexableSumArrayBenchmark() => _array.AsIndexable().Sum(0.AsAdditive());
-        
+        */
         static int[] _array = Enumerable.Range(0, 1000).ToArray();
 
         public static int ForeachSum(int[] array)

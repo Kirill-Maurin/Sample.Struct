@@ -84,7 +84,7 @@ namespace Sample.Struct.Summators
         }
     }
 
-    public struct Additive<T, TSummator> where TSummator : struct, ISummator<T>
+    public readonly struct Additive<T, TSummator> where TSummator : struct, ISummator<T>
     {
         Additive(T value) => Value = value;
 
@@ -100,7 +100,7 @@ namespace Sample.Struct.Summators
         public static implicit operator T(Additive<T, TSummator> value) => value.Value;
     }
 
-    public struct Additive<TAccumulator, TIncrement, TSummator> 
+    public readonly struct Additive<TAccumulator, TIncrement, TSummator> 
         where TSummator : struct, ISummator<TAccumulator, TIncrement>
     {
         Additive(TAccumulator value) => Value = value;

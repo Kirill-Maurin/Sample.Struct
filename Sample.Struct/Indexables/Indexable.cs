@@ -40,7 +40,7 @@ namespace Sample.Struct.Indexables
         }
     }
 
-    public struct Indexable<T, TIndex, TIndexable> : IIndexable<T, TIndex>
+    public readonly struct Indexable<T, TIndex, TIndexable> : IIndexable<T, TIndex>
         where TIndexable : struct, IIndexable<T, TIndex>
     {
         public Indexable(TIndexable indexable) => Value = indexable;

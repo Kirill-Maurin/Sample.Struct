@@ -1,4 +1,5 @@
-﻿using Sample.Struct.Summators;
+﻿using System.Runtime.CompilerServices;
+using Sample.Struct.Summators;
 
 namespace Sample.Struct.Indexables
 {
@@ -15,6 +16,7 @@ namespace Sample.Struct.Indexables
             return result;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static TAccumulator Sum<T, TAccumulator, TSummator, TIndexable, TIndexator>(
             this Indexable<T, int, TIndexable, TIndexator> indexable, Additive<TAccumulator, T, TSummator> initial)
             where TIndexator : struct, IIndexator<T, int, TIndexable>

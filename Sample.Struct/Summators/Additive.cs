@@ -73,6 +73,15 @@ namespace Sample.Struct.Summators
                 result += array[i];
             return result;
         }
+
+        public static TAccumulator Sum<T, TAccumulator, TSummator>(this T[] array, Additive<TAccumulator, T, TSummator> initial)
+            where TSummator : struct, ISummator<TAccumulator, T>
+        {
+            var result = initial;
+            for (var i = 0; i < array.Length; i++)
+                result += array[i];
+            return result;
+        }
     }
 
     public struct Additive<T, TSummator> where TSummator : struct, ISummator<T>
@@ -94,15 +103,17 @@ namespace Sample.Struct.Summators
     public struct Additive<TAccumulator, TIncrement, TSummator> 
         where TSummator : struct, ISummator<TAccumulator, TIncrement>
     {
+        Additive(TAccumulator value) => Value = value;
         public TAccumulator Value { get; }
 
         public static Additive<TAccumulator, TIncrement, TSummator> operator +
             (Additive<TAccumulator, TIncrement, TSummator> left, TIncrement right)
-            => default(TSummator).Add(left, right);
+        {
+            var summator = default(TSummator);
+            return summator.Add(left, right);
+        }
 
         public static implicit operator Additive<TAccumulator, TIncrement, TSummator>(TAccumulator value) => new Additive<TAccumulator, TIncrement, TSummator>(value);
         public static implicit operator TAccumulator(Additive<TAccumulator, TIncrement, TSummator> value) => value.Value;
-
-        Additive(TAccumulator value) => Value = value;
     }
 }

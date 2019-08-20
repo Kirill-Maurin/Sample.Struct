@@ -11,7 +11,7 @@ namespace Sample.Struct.Enumerables
 
     public readonly struct ArrayEnumerable<T> : IEnumerable<T, ArrayEnumerator<T>>
     {
-        internal ArrayEnumerable(T[] unwrap) => Value = unwrap;
+        internal ArrayEnumerable(T[] value) => Value = value;
 
         public T[] Value { get; }
 

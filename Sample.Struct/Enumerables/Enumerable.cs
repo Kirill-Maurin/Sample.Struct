@@ -7,7 +7,7 @@ namespace Sample.Struct.Enumerables
         where TEnumerator : IEnumerator<T> 
         where TEnumerable : IEnumerable<T, TEnumerator>
     {        
-        public Enumerable(TEnumerable unwrap) => Value = unwrap;
+        public Enumerable(TEnumerable value) => Value = value;
 
         public TEnumerable Value { get; }
 

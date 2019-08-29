@@ -21,7 +21,7 @@ namespace Sample.Struct.Equatables
         (
             this Indexable<T, int, TLeftIndexable> left,
             Indexable<T, int, TRightIndexable> right,
-            TComparer _
+            TComparer comparer = default
         )
             where TLeftIndexable : struct, IIndexable<T, int>
             where TRightIndexable : struct, IIndexable<T, int>
@@ -31,8 +31,11 @@ namespace Sample.Struct.Equatables
                 return false;
 
             for (var i = 0; i < left.Count; i++)
-                if (left[i].AsEquatable(_) != right[i])
+            {
+                Equatable<T, TComparer> l = left[i];
+                if (l != right[i])
                     return false;
+            }
 
             return true;
         }
@@ -70,8 +73,17 @@ namespace Sample.Struct.Equatables
 
         public override int GetHashCode() => default(TComparer).GetHashCode(Value);
 
-        public static bool operator ==(Equatable<T, TComparer> left, Equatable<T, TComparer> right) => default(TComparer).Equals(left, right);
-        public static bool operator !=(Equatable<T, TComparer> left, Equatable<T, TComparer> right) => !default(TComparer).Equals(left, right);
+        public static bool operator ==(Equatable<T, TComparer> left, Equatable<T, TComparer> right)
+        {
+            var comparer = default(TComparer);
+            return comparer.Equals(left, right);
+        }
+
+        public static bool operator !=(Equatable<T, TComparer> left, Equatable<T, TComparer> right)
+        {
+            var comparer = default(TComparer);
+            return !comparer.Equals(left, right);
+        }
 
         public static implicit operator T(Equatable<T, TComparer> value) => value.Value;
         public static implicit operator Equatable<T, TComparer>(T value) => new Equatable<T, TComparer>(value);

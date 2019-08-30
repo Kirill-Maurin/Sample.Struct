@@ -16,6 +16,7 @@ namespace Sample.Struct.Indexables
             return result;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static TAccumulator Sum<T, TAccumulator, TSummator, TIndexable>(
             this Indexable<T, int, TIndexable> indexable, Additive<TAccumulator, T, TSummator> initial)
             where TIndexable : struct, IIndexable<T, int>

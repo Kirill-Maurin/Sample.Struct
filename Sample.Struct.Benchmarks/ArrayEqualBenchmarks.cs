@@ -10,7 +10,7 @@ namespace Sample.Struct.Benchmarks
     public class ArrayBenchmarks
     {
         [Benchmark(Baseline = true)]
-        public void IEnumerableIntSequenceEqualArrayBenchmark() => _array.SequenceEqual(_array2);
+        public void LinqSequenceEqualArrayBenchmark() => _array.SequenceEqual(_array2);
 
         [Benchmark]
         public void GenericIndexableSequenceEqualArrayBenchmark() => _array.AsGenericIndexable().SequenceEqual(_array2.AsGenericIndexable(), default(IntComparer));
@@ -43,7 +43,7 @@ namespace Sample.Struct.Benchmarks
             }
 
             return true;
-        }        
+        }
 
         static int[] _array = Enumerable.Range(0, 1000).ToArray();
 

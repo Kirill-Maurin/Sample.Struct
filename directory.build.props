@@ -10,7 +10,7 @@
     <OutputPath>$(SolutionDir)\.build\$(Configuration)\</OutputPath>
     <OutDir>$(OutputPath)</OutDir>
     <UseCommonOutputDirectory>True</UseCommonOutputDirectory>
-    <NetCoreTarget>netcoreapp2.2</NetCoreTarget>
+    <NetCoreTarget>netcoreapp3.0</NetCoreTarget>
     <NetStandardTarget>netstandard2.0</NetStandardTarget>
   </PropertyGroup>
   <ItemGroup>

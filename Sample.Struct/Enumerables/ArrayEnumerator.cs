@@ -22,7 +22,7 @@ namespace Sample.Struct.Enumerables
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool MoveNext()
         {
-            if (++_i >= _array.Length)
+            if ((uint)++_i >= (uint)_array.Length)
                 return false;
             Current = _array[_i];
             return true;

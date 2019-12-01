@@ -7,8 +7,7 @@ namespace Sample.Struct.Enumerables
     {
         public static Enumerable<T, Dictionary<TKey, T>.ValueCollection.Enumerator, ValueCollectionEnumerable<TKey, T>> AsStructEnumerable<TKey, T>
             (this Dictionary<TKey, T>.ValueCollection keys)
-            => new Enumerable<T, Dictionary<TKey, T>.ValueCollection.Enumerator, ValueCollectionEnumerable<TKey, T>>
-                (new ValueCollectionEnumerable<TKey,T>(keys));
+            => new ValueCollectionEnumerable<TKey,T>(keys);
     }
 
     public readonly struct ValueCollectionEnumerable<TKey, T> : IEnumerable<T, Dictionary<TKey, T>.ValueCollection.Enumerator>

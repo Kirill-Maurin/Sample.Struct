@@ -10,8 +10,7 @@ namespace Sample.Struct.Enumerables
             (this in Enumerable<T, TAtor, TAble> enumerable, Func<T, bool> predicate)
             where TAtor: IEnumerator<T>
             where TAble: IEnumerable<T, TAtor>
-            => new Enumerable<T, WhereEnumerator<T, TAtor>, WhereEnumerable<T, TAtor, TAble>>
-                (new WhereEnumerable<T, TAtor, TAble>(enumerable, predicate));        
+            => new WhereEnumerable<T, TAtor, TAble>(enumerable, predicate);        
     }
 
     public readonly struct WhereEnumerable<T, TAtor, TAble> : IEnumerable<T, WhereEnumerator<T, TAtor>>
@@ -19,9 +18,9 @@ namespace Sample.Struct.Enumerables
         where TAble: IEnumerable<T, TAtor>
     {
         internal WhereEnumerable(in Enumerable<T, TAtor, TAble> unwrap, Func<T, bool> predicate) 
-            => (Value, _predicate) = (unwrap, predicate);
+            => (Value, _predicate) = (unwrap.Value, predicate);
 
-        public Enumerable<T, TAtor, TAble> Value { get; }
+        public TAble Value { get; }
 
         readonly Func<T, bool> _predicate;
 

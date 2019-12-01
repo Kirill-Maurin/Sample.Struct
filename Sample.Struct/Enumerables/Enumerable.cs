@@ -3,19 +3,18 @@ using System.Collections.Generic;
 
 namespace Sample.Struct.Enumerables
 {
-    public readonly struct Enumerable<T, TEnumerator, TEnumerable> : IEnumerable<T, TEnumerator>
+    public readonly ref struct Enumerable<T, TEnumerator, TEnumerable> 
         where TEnumerator : IEnumerator<T> 
         where TEnumerable : IEnumerable<T, TEnumerator>
     {        
-        public Enumerable(TEnumerable value) => Value = value;
+        Enumerable(TEnumerable value) => Value = value;
 
         public TEnumerable Value { get; }
 
         public TEnumerator GetEnumerator() => Value.GetEnumerator();
 
-        IEnumerator<T> IEnumerable<T>.GetEnumerator() => GetEnumerator();
-
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        public static implicit operator Enumerable<T, TEnumerator, TEnumerable>(TEnumerable value) => new Enumerable<T, TEnumerator, TEnumerable>(value);
+        public static implicit operator TEnumerable(Enumerable<T, TEnumerator, TEnumerable> value) => value.Value;
     }
 
     public readonly struct Enumerable<T> : IEnumerable<T, IEnumerator<T>>

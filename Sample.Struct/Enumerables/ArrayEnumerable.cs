@@ -6,7 +6,7 @@ namespace Sample.Struct.Enumerables
     public static class ArrayEnumerable
     {
         public static Enumerable<T, ArrayEnumerator<T>, ArrayEnumerable<T>> AsStructEnumerable<T>(this T[] list)
-            => new Enumerable<T, ArrayEnumerator<T>, ArrayEnumerable<T>>(new ArrayEnumerable<T>(list));        
+            => new ArrayEnumerable<T>(list);
     }
 
     public readonly struct ArrayEnumerable<T> : IEnumerable<T, ArrayEnumerator<T>>

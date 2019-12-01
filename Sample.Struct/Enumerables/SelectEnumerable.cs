@@ -10,8 +10,7 @@ namespace Sample.Struct.Enumerables
             (this in Enumerable<T, TAtor, TAble> enumerable, Func<T, TOut> selector)
             where TAtor : IEnumerator<T>
             where TAble : IEnumerable<T, TAtor>
-            => new Enumerable<TOut, SelectEnumerator<T, TOut, TAtor>, SelectEnumerable<T, TOut, TAtor, TAble>>
-                (new SelectEnumerable<T, TOut, TAtor, TAble>(enumerable, selector));
+            => new SelectEnumerable<T, TOut, TAtor, TAble>(enumerable, selector);
     }
 
     public readonly struct SelectEnumerable<T, TOut, TAtor, TAble> : IEnumerable<TOut, SelectEnumerator<T, TOut, TAtor>>
@@ -19,9 +18,9 @@ namespace Sample.Struct.Enumerables
         where TAble : IEnumerable<T, TAtor>
     {
         internal SelectEnumerable(in Enumerable<T, TAtor, TAble> unwrap, Func<T, TOut> selector)
-            => (Value, _selector) = (unwrap, selector);
+            => (Value, _selector) = (unwrap.Value, selector);
 
-        public Enumerable<T, TAtor, TAble> Value { get; }
+        public TAble Value { get; }
 
         readonly Func<T, TOut> _selector;
 

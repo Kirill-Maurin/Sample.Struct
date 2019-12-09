@@ -1,8 +1,24 @@
+using Sample.Struct.Summators;
 using System.Collections;
 using System.Collections.Generic;
 
 namespace Sample.Struct.Enumerables
 {
+    public readonly ref struct Linqable<T, TEnumerator, TEnumerable, TOperator>
+        where TEnumerator : IEnumerator<T>
+        where TEnumerable : IEnumerable<T, TEnumerator>
+        where TOperator : ISummator<T, T>
+    {
+        Linqable(TEnumerable value) => Value = value;
+
+        public TEnumerable Value { get; }
+
+        public TEnumerator GetEnumerator() => Value.GetEnumerator();
+
+        public static implicit operator Linqable<T, TEnumerator, TEnumerable, TOperator>(TEnumerable value) => new Linqable<T, TEnumerator, TEnumerable, TOperator>(value);
+        public static implicit operator TEnumerable(Linqable<T, TEnumerator, TEnumerable, TOperator> value) => value.Value;
+    }
+
     public readonly ref struct Enumerable<T, TEnumerator, TEnumerable> 
         where TEnumerator : IEnumerator<T> 
         where TEnumerable : IEnumerable<T, TEnumerator>

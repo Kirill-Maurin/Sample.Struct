@@ -1,18 +1,20 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace Sample.Struct.Enumerables
 {
-    public struct SelectEnumerator<T, TOut, TAtor> : IEnumerator<TOut>
+    public struct SelectEnumerator<T, TOut, TAtor, TSelector> : IEnumerator<TOut>
         where TAtor : IEnumerator<T>
+        where TSelector : IFunc<T, TOut>
     {
-        internal SelectEnumerator(in TAtor enumerator, Func<T, TOut> selector)
+        internal SelectEnumerator(in TAtor enumerator, TSelector selector)
             => (_enumerator, _selector, Current) = (enumerator, selector, default);
 
         TAtor _enumerator;
 
-        readonly Func<T, TOut> _selector;
+        readonly TSelector _selector;
 
         public TOut Current { get; private set; }
 
@@ -20,12 +22,13 @@ namespace Sample.Struct.Enumerables
 
         public void Dispose() { }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool MoveNext()
         {
-            var result = _enumerator.MoveNext();
-            if (!result)
+            if (!_enumerator.MoveNext())
                 return false;
-            Current = _selector(_enumerator.Current);
+            var s = _selector;
+            Current = s.Invoke(_enumerator.Current);
             return true;
         }
 

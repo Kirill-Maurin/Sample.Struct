@@ -1,31 +1,50 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using Sample.Struct.Functions;
+using Sample.Struct.Summators;
 
 namespace Sample.Struct.Enumerables
 {
     public static class SelectEnumerable
     {
-        public static Enumerable<TOut, SelectEnumerator<T, TOut, TAtor>, SelectEnumerable<T, TOut, TAtor, TAble>> Select<T, TOut, TAtor, TAble>
+        public static Enumerable<TOut, SelectEnumerator<int, TOut, TAtor, TSelector>, SelectEnumerable<int, TOut, TAtor, TAble, TSelector>> Select<TAtor, TAble, TSelector, TOut, TOperator>
+            (this in Linqable<int, TAtor, TAble, TOperator> enumerable, Func<Function<Id<int>, int, int, TOperator>, Function<TSelector, int, TOut, TOperator>> selector)
+            where TAtor : IEnumerator<int>
+            where TAble : IEnumerable<int, TAtor>
+            where TSelector : IFunc<int, TOut>
+            where TOperator : struct, ISummator<int, int>, ISummator<TOut, TOut>
+            => new SelectEnumerable<int, TOut, TAtor, TAble, TSelector>(enumerable.Value, selector(Functions.Id.Function<int, TOperator>()));
+
+        public static Enumerable<TOut, SelectEnumerator<T, TOut, TAtor, Delegate<T, TOut>>, SelectEnumerable<T, TOut, TAtor, TAble, Delegate<T, TOut>>> Select<T, TOut, TAtor, TAble>
             (this in Enumerable<T, TAtor, TAble> enumerable, Func<T, TOut> selector)
             where TAtor : IEnumerator<T>
             where TAble : IEnumerable<T, TAtor>
-            => new SelectEnumerable<T, TOut, TAtor, TAble>(enumerable, selector);
+            => enumerable.Select(selector.AsStruct());
+
+        public static Enumerable<TOut, SelectEnumerator<T, TOut, TAtor, TSelector>, SelectEnumerable<T, TOut, TAtor, TAble, TSelector>> Select<T, TOut, TAtor, TAble, TSelector>
+            (this in Enumerable<T, TAtor, TAble> enumerable, Function<TSelector, T, TOut> selector)
+            where TAtor : IEnumerator<T>
+            where TAble : IEnumerable<T, TAtor>
+            where TSelector : IFunc<T, TOut>
+            => new SelectEnumerable<T, TOut, TAtor, TAble, TSelector>(enumerable, selector);
     }
 
-    public readonly struct SelectEnumerable<T, TOut, TAtor, TAble> : IEnumerable<TOut, SelectEnumerator<T, TOut, TAtor>>
+    public readonly struct SelectEnumerable<T, TOut, TAtor, TAble, TSelector> : IEnumerable<TOut, SelectEnumerator<T, TOut, TAtor, TSelector>>
         where TAtor : IEnumerator<T>
         where TAble : IEnumerable<T, TAtor>
+        where TSelector : IFunc<T, TOut>
     {
-        internal SelectEnumerable(in Enumerable<T, TAtor, TAble> unwrap, Func<T, TOut> selector)
+        internal SelectEnumerable(in Enumerable<T, TAtor, TAble> unwrap, TSelector selector)
             => (Value, _selector) = (unwrap.Value, selector);
 
         public TAble Value { get; }
 
-        readonly Func<T, TOut> _selector;
+        readonly TSelector _selector;
 
-        public SelectEnumerator<T, TOut, TAtor> GetEnumerator()
-            => new SelectEnumerator<T, TOut, TAtor>(Value.GetEnumerator(), _selector);
+        public SelectEnumerator<T, TOut, TAtor, TSelector> GetEnumerator()
+            => new SelectEnumerator<T, TOut, TAtor, TSelector>(Value.GetEnumerator(), _selector);
 
         IEnumerator<TOut> IEnumerable<TOut>.GetEnumerator() => GetEnumerator();
 

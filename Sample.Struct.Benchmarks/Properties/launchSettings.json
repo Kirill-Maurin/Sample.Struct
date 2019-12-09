@@ -2,7 +2,7 @@
   "profiles": {
     "Sample.Struct.Benchmarks": {
       "commandName": "Project",
-      "commandLineArgs": "--filter *SumArrayBenchmark*"
+      "commandLineArgs": "--filter *EnumerableSelectSumArrayBenchmark*"
     }
   }
 }

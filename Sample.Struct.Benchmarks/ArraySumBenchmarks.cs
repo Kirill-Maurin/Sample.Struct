@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using BenchmarkDotNet.Attributes;
 using Sample.Struct.Enumerables;
@@ -54,6 +55,12 @@ namespace Sample.Struct.Benchmarks
         public void Generic2EnumerableSumArrayBenchmark() => _array.AsStructEnumerable().Sum(0L.AsAccumulator());
 
         [Benchmark]
+        public void Generic2EnumerableSumMemoryBenchmark() => _array.AsMemory().AsStructEnumerable().Sum(0L.AsAccumulator());
+
+        [Benchmark]
+        public void Generic2EnumerableFoldSumArrayBenchmark() => _array.AsStructEnumerable().Fold(0L, default(LongIntSummator));
+
+        [Benchmark]
         public void IEnumerableIntSumArrayBenchmark() => Sum(_array);
 
         public static int Sum(IEnumerable<int> source)
@@ -70,6 +77,14 @@ namespace Sample.Struct.Benchmarks
         [Benchmark]
         public void ForEachSumArrayBenchmark() => ForeachSum(_array);
 
+        [Benchmark]
+        public void ForEachSpanSumArrayBenchmark() => SpanSum(_array.AsSpan());
+
+        [Benchmark]
+        public void ForEachSpanEnumerableSumArrayBenchmark() => EnumerableSpanForeachSum(_array.AsSpan().AsSpanEnumerable());
+
+        [Benchmark]
+        public void SpanEnumerableSumArrayBenchmark() => EnumerableSpanSum(_array.AsSpan());
 
         [Benchmark]
         public void GenericIEnumerableIntSumArrayBenchmark() => _array.AsEnumerable().AsStructEnumerable().Sum();
@@ -83,13 +98,47 @@ namespace Sample.Struct.Benchmarks
         [Benchmark]
         public void GenericEnumerableSumArrayBenchmark() => _array.AsStructEnumerable().Sum(0.AsAdditive());
 
+        [Benchmark]
+        public void GenericEnumerableSelectSumArrayBenchmark() => _array.Select(n => n + 5).Sum();
+
+        [Benchmark]
+        public void Generic2EnumerableSelectSumArrayBenchmark() => _array.AsStructEnumerable().Select(n => n + 5).Sum();
+
+        [Benchmark]
+        public void Generic3EnumerableSelectSumArrayBenchmark() => _array.AsStructLinqable().Select(n => n + 5).Sum();
+
+
         static int[] _array = Enumerable.Range(0, 1000).ToArray();
+
+        public static int SpanSum(Span<int> span)
+        {
+            var sum = 0;
+            foreach (var n in span)
+                sum += n;
+            return sum;
+        }
+
+        public static int EnumerableSpanForeachSum(SpanEnumerable<int> se)
+        {
+            var sum = 0;
+            foreach (var n in se)
+                sum += n;
+            return sum;
+        }
+
+        public static int EnumerableSpanSum(Span<int> span)
+        {
+            var sum = 0;
+            for (var e = span.GetEnumerator(); e.MoveNext();)
+                sum += e.Current;
+            return sum;
+        }
 
         public static int ForeachSum(int[] array)
         {
             var sum = 0;
             foreach (var n in array)
-                sum += n;
+                sum += n + 5;
             return sum;
         }
 

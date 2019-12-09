@@ -1,3 +1,4 @@
+using Sample.Struct.Summators;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -7,6 +8,9 @@ namespace Sample.Struct.Enumerables
     {
         public static Enumerable<T, ArrayEnumerator<T>, ArrayEnumerable<T>> AsStructEnumerable<T>(this T[] list)
             => new ArrayEnumerable<T>(list);
+
+        public static Linqable<int, ArrayEnumerator<int>, ArrayEnumerable<int>, IntSummator> AsStructLinqable(this int[] list)
+            => new ArrayEnumerable<int>(list);
     }
 
     public readonly struct ArrayEnumerable<T> : IEnumerable<T, ArrayEnumerator<T>>

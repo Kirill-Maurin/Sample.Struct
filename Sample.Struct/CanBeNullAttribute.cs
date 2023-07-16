@@ -1,6 +1,5 @@
-using System;
+namespace Sample.Struct;
 
-namespace Sample.Struct
+public sealed class CanBeNullAttribute : Attribute
 {
-    public class CanBeNullAttribute : Attribute {}
 }

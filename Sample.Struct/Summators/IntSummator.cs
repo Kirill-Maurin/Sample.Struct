@@ -1,11 +1,9 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace Sample.Struct.Summators
-{
-    public readonly struct IntSummator : ISummator<int>, ISummator<int, int>
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+namespace Sample.Struct.Summators;
 
-        public int Add(int left, int right) => left + right;
-    }
+public readonly struct IntSummator : ISummator<int>, ISummator<int, int>
+{
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public int Add(int left, int right) => left + right;
 }

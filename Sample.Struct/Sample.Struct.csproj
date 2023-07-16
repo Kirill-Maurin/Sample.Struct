@@ -1,6 +1,16 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-  <ItemGroup>
-    <PackageReference Include="JonSkeet.MiscUtil" Version="0.2.0" />
-    <PackageReference Include="System.Memory" Version="4.5.3" />
-  </ItemGroup>
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Update="System.Collections.Immutable" Version="7.0.0" />
+      <PackageReference Update="System.Reactive" Version="6.0.0" />
+      <PackageReference Update="System.Threading.Tasks.Extensions" Version="4.5.4" />
+      <PackageReference Include="JonSkeet.MiscUtil" Version="0.2.0" />
+    </ItemGroup>
+
 </Project>

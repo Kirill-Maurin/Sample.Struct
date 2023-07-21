@@ -15,23 +15,23 @@ public readonly struct ListEnumerable<T> : IEnumerable<T, List<T>.Enumerator>
 {
     internal ListEnumerable(List<T> unwrap)
     {
-        this.Value = unwrap;
+        Value = unwrap;
     }
 
     public List<T> Value { get; }
 
     public List<T>.Enumerator GetEnumerator()
     {
-        return this.Value.GetEnumerator();
+        return Value.GetEnumerator();
     }
 
     IEnumerator<T> IEnumerable<T>.GetEnumerator()
     {
-        return this.GetEnumerator();
+        return GetEnumerator();
     }
 
     IEnumerator IEnumerable.GetEnumerator()
     {
-        return this.GetEnumerator();
+        return GetEnumerator();
     }
 }

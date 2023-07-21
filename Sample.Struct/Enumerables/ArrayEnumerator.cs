@@ -9,7 +9,7 @@ public struct ArrayEnumerator<T> : IEnumerator<T>
 {
     internal ArrayEnumerator(T[] array)
     {
-        (this._i, this._array, this.Current) = (-1, array, default);
+        (_i, _array, Current) = (-1, array, default);
     }
 
     private readonly T[] _array;
@@ -18,7 +18,7 @@ public struct ArrayEnumerator<T> : IEnumerator<T>
 
     public T Current { get; private set; }
 
-    object IEnumerator.Current => this.Current;
+    object IEnumerator.Current => Current;
 
     public void Dispose()
     {
@@ -27,9 +27,9 @@ public struct ArrayEnumerator<T> : IEnumerator<T>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool MoveNext()
     {
-        if ((uint)++this._i >= (uint)this._array.Length)
+        if ((uint)++_i >= (uint)_array.Length)
             return false;
-        this.Current = this._array[this._i];
+        Current = _array[_i];
         return true;
     }
 

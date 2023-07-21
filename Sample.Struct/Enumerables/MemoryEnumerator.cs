@@ -9,7 +9,7 @@ public struct MemoryEnumerator<T> : IEnumerator<T>
 {
     internal MemoryEnumerator(Memory<T> memory)
     {
-        (this._i, this._memory, this.Current) = (-1, memory, default);
+        (_i, _memory, Current) = (-1, memory, default);
     }
 
     private readonly Memory<T> _memory;
@@ -18,7 +18,7 @@ public struct MemoryEnumerator<T> : IEnumerator<T>
 
     public T Current { get; private set; }
 
-    object IEnumerator.Current => this.Current;
+    object IEnumerator.Current => Current;
 
     public void Dispose()
     {
@@ -27,9 +27,9 @@ public struct MemoryEnumerator<T> : IEnumerator<T>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool MoveNext()
     {
-        if ((uint)++this._i >= (uint)this._memory.Length)
+        if ((uint)++_i >= (uint)_memory.Length)
             return false;
-        this.Current = this._memory.Span[this._i];
+        Current = _memory.Span[_i];
         return true;
     }
 

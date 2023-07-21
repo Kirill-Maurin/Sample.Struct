@@ -10,7 +10,7 @@ public struct SelectEnumerator<T, TOut, TAtor, TSelector> : IEnumerator<TOut>
 {
     internal SelectEnumerator(in TAtor enumerator, TSelector selector)
     {
-        (this._enumerator, this._selector, this.Current) = (enumerator, selector, default);
+        (_enumerator, _selector, Current) = (enumerator, selector, default);
     }
 
     private TAtor _enumerator;
@@ -19,7 +19,7 @@ public struct SelectEnumerator<T, TOut, TAtor, TSelector> : IEnumerator<TOut>
 
     public TOut Current { get; private set; }
 
-    object IEnumerator.Current => this.Current;
+    object IEnumerator.Current => Current;
 
     public void Dispose()
     {
@@ -28,15 +28,15 @@ public struct SelectEnumerator<T, TOut, TAtor, TSelector> : IEnumerator<TOut>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool MoveNext()
     {
-        if (!this._enumerator.MoveNext())
+        if (!_enumerator.MoveNext())
             return false;
-        TSelector s = this._selector;
-        this.Current = s.Invoke(this._enumerator.Current);
+        TSelector s = _selector;
+        Current = s.Invoke(_enumerator.Current);
         return true;
     }
 
     public void Reset()
     {
-        this._enumerator.Reset();
+        _enumerator.Reset();
     }
 }

@@ -9,16 +9,16 @@ public struct WhereEnumerator<T, TAtor> : IEnumerator<T>
 {
     internal WhereEnumerator(in TAtor enumerator, Func<T, bool> predicate)
     {
-        (this._enumerator, this._predicate) = (enumerator, predicate);
+        (_enumerator, _predicate) = (enumerator, predicate);
     }
 
     private TAtor _enumerator;
 
     private readonly Func<T, bool> _predicate;
 
-    public T Current => this._enumerator.Current;
+    public T Current => _enumerator.Current;
 
-    object IEnumerator.Current => this.Current;
+    object IEnumerator.Current => Current;
 
     public void Dispose()
     {
@@ -28,15 +28,15 @@ public struct WhereEnumerator<T, TAtor> : IEnumerator<T>
     {
         do
         {
-            if (!this._enumerator.MoveNext())
+            if (!_enumerator.MoveNext())
                 return false;
-        } while (!this._predicate(this._enumerator.Current));
+        } while (!_predicate(_enumerator.Current));
 
         return true;
     }
 
     public void Reset()
     {
-        this._enumerator.Reset();
+        _enumerator.Reset();
     }
 }

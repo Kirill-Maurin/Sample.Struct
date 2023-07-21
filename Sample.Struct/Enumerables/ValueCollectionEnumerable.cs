@@ -18,23 +18,23 @@ public readonly struct
 {
     internal ValueCollectionEnumerable(Dictionary<TKey, T>.ValueCollection unwrap)
     {
-        this.Value = unwrap;
+        Value = unwrap;
     }
 
     public Dictionary<TKey, T>.ValueCollection Value { get; }
 
     public Dictionary<TKey, T>.ValueCollection.Enumerator GetEnumerator()
     {
-        return this.Value.GetEnumerator();
+        return Value.GetEnumerator();
     }
 
     IEnumerator<T> IEnumerable<T>.GetEnumerator()
     {
-        return this.GetEnumerator();
+        return GetEnumerator();
     }
 
     IEnumerator IEnumerable.GetEnumerator()
     {
-        return this.GetEnumerator();
+        return GetEnumerator();
     }
 }

@@ -22,23 +22,23 @@ public readonly struct ArrayEnumerable<T> : IEnumerable<T, ArrayEnumerator<T>>
 {
     internal ArrayEnumerable(T[] value)
     {
-        this.Value = value;
+        Value = value;
     }
 
     public T[] Value { get; }
 
     public ArrayEnumerator<T> GetEnumerator()
     {
-        return new ArrayEnumerator<T>(this.Value);
+        return new ArrayEnumerator<T>(Value);
     }
 
     IEnumerator<T> IEnumerable<T>.GetEnumerator()
     {
-        return this.GetEnumerator();
+        return GetEnumerator();
     }
 
     IEnumerator IEnumerable.GetEnumerator()
     {
-        return this.GetEnumerator();
+        return GetEnumerator();
     }
 }

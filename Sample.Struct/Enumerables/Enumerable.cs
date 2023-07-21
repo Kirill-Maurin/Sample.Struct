@@ -11,14 +11,14 @@ public readonly ref struct Linqable<T, TEnumerator, TEnumerable, TOperator>
 {
     private Linqable(TEnumerable value)
     {
-        this.Value = value;
+        Value = value;
     }
 
     public TEnumerable Value { get; }
 
     public TEnumerator GetEnumerator()
     {
-        return this.Value.GetEnumerator();
+        return Value.GetEnumerator();
     }
 
     public static implicit operator Linqable<T, TEnumerator, TEnumerable, TOperator>(TEnumerable value)
@@ -38,14 +38,14 @@ public readonly ref struct Enumerable<T, TEnumerator, TEnumerable>
 {
     private Enumerable(TEnumerable value)
     {
-        this.Value = value;
+        Value = value;
     }
 
     public TEnumerable Value { get; }
 
     public TEnumerator GetEnumerator()
     {
-        return this.Value.GetEnumerator();
+        return Value.GetEnumerator();
     }
 
     public static implicit operator Enumerable<T, TEnumerator, TEnumerable>(TEnumerable value)
@@ -63,18 +63,18 @@ public readonly struct Enumerable<T> : IEnumerable<T, IEnumerator<T>>
 {
     internal Enumerable(IEnumerable<T> unwrap)
     {
-        this.Value = unwrap;
+        Value = unwrap;
     }
 
     public IEnumerable<T> Value { get; }
 
     public IEnumerator<T> GetEnumerator()
     {
-        return this.Value.GetEnumerator();
+        return Value.GetEnumerator();
     }
 
     IEnumerator IEnumerable.GetEnumerator()
     {
-        return this.GetEnumerator();
+        return GetEnumerator();
     }
 }

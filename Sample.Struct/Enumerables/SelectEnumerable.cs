@@ -52,7 +52,7 @@ public readonly struct
 {
     internal SelectEnumerable(in Enumerable<T, TAtor, TAble> unwrap, TSelector selector)
     {
-        (this.Value, this._selector) = (unwrap.Value, selector);
+        (Value, _selector) = (unwrap.Value, selector);
     }
 
     public TAble Value { get; }
@@ -61,16 +61,16 @@ public readonly struct
 
     public SelectEnumerator<T, TOut, TAtor, TSelector> GetEnumerator()
     {
-        return new SelectEnumerator<T, TOut, TAtor, TSelector>(this.Value.GetEnumerator(), this._selector);
+        return new SelectEnumerator<T, TOut, TAtor, TSelector>(Value.GetEnumerator(), _selector);
     }
 
     IEnumerator<TOut> IEnumerable<TOut>.GetEnumerator()
     {
-        return this.GetEnumerator();
+        return GetEnumerator();
     }
 
     IEnumerator IEnumerable.GetEnumerator()
     {
-        return this.GetEnumerator();
+        return GetEnumerator();
     }
 }

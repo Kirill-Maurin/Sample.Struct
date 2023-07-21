@@ -16,24 +16,24 @@ public readonly struct MemoryEnumerable<T> : IEnumerable<T, MemoryEnumerator<T>>
 {
     internal MemoryEnumerable(Memory<T> value)
     {
-        this.Value = value;
+        Value = value;
     }
 
     public Memory<T> Value { get; }
 
     public MemoryEnumerator<T> GetEnumerator()
     {
-        return new MemoryEnumerator<T>(this.Value);
+        return new MemoryEnumerator<T>(Value);
     }
 
     IEnumerator<T> IEnumerable<T>.GetEnumerator()
     {
-        return this.GetEnumerator();
+        return GetEnumerator();
     }
 
     IEnumerator IEnumerable.GetEnumerator()
     {
-        return this.GetEnumerator();
+        return GetEnumerator();
     }
 }
 

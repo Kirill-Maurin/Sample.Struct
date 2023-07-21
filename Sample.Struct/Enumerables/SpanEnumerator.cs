@@ -7,8 +7,8 @@ public ref struct SpanEnumerator<T>
 {
     internal SpanEnumerator(Span<T> span)
     {
-        this._span = span;
-        (this._i, this.Current) = (-1, default);
+        _span = span;
+        (_i, Current) = (-1, default);
     }
 
     private readonly Span<T> _span;
@@ -24,9 +24,9 @@ public ref struct SpanEnumerator<T>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool MoveNext()
     {
-        if ((uint)++this._i >= (uint)this._span.Length)
+        if ((uint)++_i >= (uint)_span.Length)
             return false;
-        this.Current = this._span[this._i];
+        Current = _span[_i];
         return true;
     }
 

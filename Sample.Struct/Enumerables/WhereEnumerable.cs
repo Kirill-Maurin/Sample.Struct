@@ -21,7 +21,7 @@ public readonly struct WhereEnumerable<T, TAtor, TAble> : IEnumerable<T, WhereEn
 {
     internal WhereEnumerable(in Enumerable<T, TAtor, TAble> unwrap, Func<T, bool> predicate)
     {
-        (this.Value, this._predicate) = (unwrap.Value, predicate);
+        (Value, _predicate) = (unwrap.Value, predicate);
     }
 
     public TAble Value { get; }
@@ -30,16 +30,16 @@ public readonly struct WhereEnumerable<T, TAtor, TAble> : IEnumerable<T, WhereEn
 
     public WhereEnumerator<T, TAtor> GetEnumerator()
     {
-        return new WhereEnumerator<T, TAtor>(this.Value.GetEnumerator(), this._predicate);
+        return new WhereEnumerator<T, TAtor>(Value.GetEnumerator(), _predicate);
     }
 
     IEnumerator<T> IEnumerable<T>.GetEnumerator()
     {
-        return this.GetEnumerator();
+        return GetEnumerator();
     }
 
     IEnumerator IEnumerable.GetEnumerator()
     {
-        return this.GetEnumerator();
+        return GetEnumerator();
     }
 }

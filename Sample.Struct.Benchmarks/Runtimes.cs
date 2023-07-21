@@ -1,12 +1,13 @@
-﻿using BenchmarkDotNet.Configs;
+﻿namespace Sample.Struct.Benchmarks;
+
+using BenchmarkDotNet.Configs;
 using BenchmarkDotNet.Jobs;
+using BenchmarkDotNet.Toolchains.InProcess.NoEmit;
 
-namespace Sample.Struct.Benchmarks
+public sealed class Runtimes : ManualConfig
 {
-    using BenchmarkDotNet.Toolchains.InProcess.NoEmit;
-
-    public sealed class Runtimes : ManualConfig
+    public Runtimes()
     {
-        public Runtimes() => AddJob(Job.Default.WithToolchain(InProcessNoEmitToolchain.Instance));
+        AddJob(Job.Default.WithToolchain(InProcessNoEmitToolchain.Instance));
     }
 }

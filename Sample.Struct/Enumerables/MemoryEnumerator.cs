@@ -1,33 +1,40 @@
-﻿using System;
+﻿namespace Sample.Struct.Enumerables;
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
-namespace Sample.Struct.Enumerables
+public struct MemoryEnumerator<T> : IEnumerator<T>
 {
-    public struct MemoryEnumerator<T> : IEnumerator<T>
+    internal MemoryEnumerator(Memory<T> memory)
     {
-        internal MemoryEnumerator(Memory<T> memory) => (_i, _memory, Current) = (-1, memory, default);
+        (this._i, this._memory, this.Current) = (-1, memory, default);
+    }
 
-        readonly Memory<T> _memory;
+    private readonly Memory<T> _memory;
 
-        int _i;
+    private int _i;
 
-        public T Current { get; private set; }
+    public T Current { get; private set; }
 
-        object IEnumerator.Current => Current;
+    object IEnumerator.Current => this.Current;
 
-        public void Dispose() { }
+    public void Dispose()
+    {
+    }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool MoveNext()
-        {
-            if ((uint)++_i >= (uint)_memory.Length)
-                return false;
-            Current = _memory.Span[_i];
-            return true;
-        }
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public bool MoveNext()
+    {
+        if ((uint)++this._i >= (uint)this._memory.Length)
+            return false;
+        this.Current = this._memory.Span[this._i];
+        return true;
+    }
 
-        public void Reset() => throw new NotImplementedException();
+    public void Reset()
+    {
+        throw new NotImplementedException();
     }
 }

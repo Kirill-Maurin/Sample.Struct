@@ -1,25 +1,40 @@
+namespace Sample.Struct.Enumerables;
+
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Sample.Struct.Enumerables
+public static class DictionaryEnumerable
 {
-    public static class DictionaryEnumerable
+    public static Enumerable<KeyValuePair<TKey, T>, Dictionary<TKey, T>.Enumerator, DictionaryEnumerable<TKey, T>>
+        AsStructEnumerable<TKey, T>
+        (this Dictionary<TKey, T> dictionary)
     {
-        public static Enumerable<KeyValuePair<TKey, T>, Dictionary<TKey, T>.Enumerator, DictionaryEnumerable<TKey, T>> AsStructEnumerable<TKey, T>
-            (this Dictionary<TKey, T> dictionary)
-            => new DictionaryEnumerable<TKey,T>(dictionary);
+        return new DictionaryEnumerable<TKey, T>(dictionary);
+    }
+}
+
+public readonly struct
+    DictionaryEnumerable<TKey, T> : IEnumerable<KeyValuePair<TKey, T>, Dictionary<TKey, T>.Enumerator>
+{
+    internal DictionaryEnumerable(Dictionary<TKey, T> unwrap)
+    {
+        this.Value = unwrap;
     }
 
-    public readonly struct DictionaryEnumerable<TKey, T> : IEnumerable<KeyValuePair<TKey, T>, Dictionary<TKey, T>.Enumerator>
+    public Dictionary<TKey, T> Value { get; }
+
+    public Dictionary<TKey, T>.Enumerator GetEnumerator()
     {
-        internal DictionaryEnumerable(Dictionary<TKey, T> unwrap) => Value = unwrap;
+        return this.Value.GetEnumerator();
+    }
 
-        public Dictionary<TKey, T> Value { get; }
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return this.GetEnumerator();
+    }
 
-        public Dictionary<TKey, T>.Enumerator GetEnumerator() => Value.GetEnumerator();
-
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-
-        IEnumerator<KeyValuePair<TKey, T>> IEnumerable<KeyValuePair<TKey, T>>.GetEnumerator() => GetEnumerator();
+    IEnumerator<KeyValuePair<TKey, T>> IEnumerable<KeyValuePair<TKey, T>>.GetEnumerator()
+    {
+        return this.GetEnumerator();
     }
 }

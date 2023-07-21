@@ -1,34 +1,45 @@
+namespace Sample.Struct.Enumerables;
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Sample.Struct.Enumerables
+public static class WhereEnumerable
 {
-    public static class WhereEnumerable
+    public static Enumerable<T, WhereEnumerator<T, TAtor>, WhereEnumerable<T, TAtor, TAble>> Where<T, TAtor, TAble>
+        (this in Enumerable<T, TAtor, TAble> enumerable, Func<T, bool> predicate)
+        where TAtor : IEnumerator<T>
+        where TAble : IEnumerable<T, TAtor>
     {
-        public static Enumerable<T, WhereEnumerator<T, TAtor>, WhereEnumerable<T, TAtor, TAble>> Where<T, TAtor, TAble>
-            (this in Enumerable<T, TAtor, TAble> enumerable, Func<T, bool> predicate)
-            where TAtor: IEnumerator<T>
-            where TAble: IEnumerable<T, TAtor>
-            => new WhereEnumerable<T, TAtor, TAble>(enumerable, predicate);        
+        return new WhereEnumerable<T, TAtor, TAble>(enumerable, predicate);
+    }
+}
+
+public readonly struct WhereEnumerable<T, TAtor, TAble> : IEnumerable<T, WhereEnumerator<T, TAtor>>
+    where TAtor : IEnumerator<T>
+    where TAble : IEnumerable<T, TAtor>
+{
+    internal WhereEnumerable(in Enumerable<T, TAtor, TAble> unwrap, Func<T, bool> predicate)
+    {
+        (this.Value, this._predicate) = (unwrap.Value, predicate);
     }
 
-    public readonly struct WhereEnumerable<T, TAtor, TAble> : IEnumerable<T, WhereEnumerator<T, TAtor>>
-        where TAtor: IEnumerator<T>
-        where TAble: IEnumerable<T, TAtor>
+    public TAble Value { get; }
+
+    private readonly Func<T, bool> _predicate;
+
+    public WhereEnumerator<T, TAtor> GetEnumerator()
     {
-        internal WhereEnumerable(in Enumerable<T, TAtor, TAble> unwrap, Func<T, bool> predicate) 
-            => (Value, _predicate) = (unwrap.Value, predicate);
+        return new WhereEnumerator<T, TAtor>(this.Value.GetEnumerator(), this._predicate);
+    }
 
-        public TAble Value { get; }
+    IEnumerator<T> IEnumerable<T>.GetEnumerator()
+    {
+        return this.GetEnumerator();
+    }
 
-        readonly Func<T, bool> _predicate;
-
-        public WhereEnumerator<T, TAtor> GetEnumerator() 
-            => new WhereEnumerator<T, TAtor>(Value.GetEnumerator(), _predicate);
-
-        IEnumerator<T> IEnumerable<T>.GetEnumerator() => GetEnumerator();
-
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-    }    
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return this.GetEnumerator();
+    }
 }

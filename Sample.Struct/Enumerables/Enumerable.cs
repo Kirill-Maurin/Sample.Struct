@@ -1,46 +1,80 @@
-using Sample.Struct.Summators;
+namespace Sample.Struct.Enumerables;
+
 using System.Collections;
 using System.Collections.Generic;
+using Summators;
 
-namespace Sample.Struct.Enumerables
+public readonly ref struct Linqable<T, TEnumerator, TEnumerable, TOperator>
+    where TEnumerator : IEnumerator<T>
+    where TEnumerable : IEnumerable<T, TEnumerator>
+    where TOperator : ISummator<T, T>
 {
-    public readonly ref struct Linqable<T, TEnumerator, TEnumerable, TOperator>
-        where TEnumerator : IEnumerator<T>
-        where TEnumerable : IEnumerable<T, TEnumerator>
-        where TOperator : ISummator<T, T>
+    private Linqable(TEnumerable value)
     {
-        Linqable(TEnumerable value) => Value = value;
-
-        public TEnumerable Value { get; }
-
-        public TEnumerator GetEnumerator() => Value.GetEnumerator();
-
-        public static implicit operator Linqable<T, TEnumerator, TEnumerable, TOperator>(TEnumerable value) => new Linqable<T, TEnumerator, TEnumerable, TOperator>(value);
-        public static implicit operator TEnumerable(Linqable<T, TEnumerator, TEnumerable, TOperator> value) => value.Value;
+        this.Value = value;
     }
 
-    public readonly ref struct Enumerable<T, TEnumerator, TEnumerable> 
-        where TEnumerator : IEnumerator<T> 
-        where TEnumerable : IEnumerable<T, TEnumerator>
-    {        
-        Enumerable(TEnumerable value) => Value = value;
+    public TEnumerable Value { get; }
 
-        public TEnumerable Value { get; }
-
-        public TEnumerator GetEnumerator() => Value.GetEnumerator();
-
-        public static implicit operator Enumerable<T, TEnumerator, TEnumerable>(TEnumerable value) => new Enumerable<T, TEnumerator, TEnumerable>(value);
-        public static implicit operator TEnumerable(Enumerable<T, TEnumerator, TEnumerable> value) => value.Value;
+    public TEnumerator GetEnumerator()
+    {
+        return this.Value.GetEnumerator();
     }
 
-    public readonly struct Enumerable<T> : IEnumerable<T, IEnumerator<T>>
+    public static implicit operator Linqable<T, TEnumerator, TEnumerable, TOperator>(TEnumerable value)
     {
-        internal Enumerable(IEnumerable<T> unwrap) => Value = unwrap;
+        return new Linqable<T, TEnumerator, TEnumerable, TOperator>(value);
+    }
 
-        public IEnumerable<T> Value { get; }
+    public static implicit operator TEnumerable(Linqable<T, TEnumerator, TEnumerable, TOperator> value)
+    {
+        return value.Value;
+    }
+}
 
-        public IEnumerator<T> GetEnumerator() => Value.GetEnumerator();
+public readonly ref struct Enumerable<T, TEnumerator, TEnumerable>
+    where TEnumerator : IEnumerator<T>
+    where TEnumerable : IEnumerable<T, TEnumerator>
+{
+    private Enumerable(TEnumerable value)
+    {
+        this.Value = value;
+    }
 
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    public TEnumerable Value { get; }
+
+    public TEnumerator GetEnumerator()
+    {
+        return this.Value.GetEnumerator();
+    }
+
+    public static implicit operator Enumerable<T, TEnumerator, TEnumerable>(TEnumerable value)
+    {
+        return new Enumerable<T, TEnumerator, TEnumerable>(value);
+    }
+
+    public static implicit operator TEnumerable(Enumerable<T, TEnumerator, TEnumerable> value)
+    {
+        return value.Value;
+    }
+}
+
+public readonly struct Enumerable<T> : IEnumerable<T, IEnumerator<T>>
+{
+    internal Enumerable(IEnumerable<T> unwrap)
+    {
+        this.Value = unwrap;
+    }
+
+    public IEnumerable<T> Value { get; }
+
+    public IEnumerator<T> GetEnumerator()
+    {
+        return this.Value.GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return this.GetEnumerator();
     }
 }

@@ -1,33 +1,37 @@
-﻿using System;
+﻿namespace Sample.Struct.Enumerables;
+
+using System;
 using System.Runtime.CompilerServices;
 
-namespace Sample.Struct.Enumerables
+public ref struct SpanEnumerator<T>
 {
-    public ref struct SpanEnumerator<T> 
+    internal SpanEnumerator(Span<T> span)
     {
-        internal SpanEnumerator(Span<T> span)
-        {
-            _span = span;
-            (_i, Current) = (-1, default);
-        }
+        this._span = span;
+        (this._i, this.Current) = (-1, default);
+    }
 
-        readonly Span<T> _span;
+    private readonly Span<T> _span;
 
-        int _i;
+    private int _i;
 
-        public T Current { get; private set; }
+    public T Current { get; private set; }
 
-        public void Dispose() { }
+    public void Dispose()
+    {
+    }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool MoveNext()
-        {
-            if ((uint)++_i >= (uint)_span.Length)
-                return false;
-            Current = _span[_i];
-            return true;
-        }
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public bool MoveNext()
+    {
+        if ((uint)++this._i >= (uint)this._span.Length)
+            return false;
+        this.Current = this._span[this._i];
+        return true;
+    }
 
-        public void Reset() => throw new NotImplementedException();
+    public void Reset()
+    {
+        throw new NotImplementedException();
     }
 }

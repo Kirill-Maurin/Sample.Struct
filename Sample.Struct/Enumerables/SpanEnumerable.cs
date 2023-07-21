@@ -1,13 +1,18 @@
-﻿using System;
+﻿namespace Sample.Struct.Enumerables;
 
-namespace Sample.Struct.Enumerables
+using System;
+
+public readonly ref struct SpanEnumerable<T>
 {
-    public readonly ref struct SpanEnumerable<T>
+    internal SpanEnumerable(Span<T> value)
     {
-        internal SpanEnumerable(Span<T> value) => Value = value;
+        this.Value = value;
+    }
 
-        public Span<T> Value { get; }
+    public Span<T> Value { get; }
 
-        public SpanEnumerator<T> GetEnumerator() => new SpanEnumerator<T>(Value);
+    public SpanEnumerator<T> GetEnumerator()
+    {
+        return new SpanEnumerator<T>(this.Value);
     }
 }

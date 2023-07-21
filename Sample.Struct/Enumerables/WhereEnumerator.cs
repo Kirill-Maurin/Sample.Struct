@@ -1,36 +1,42 @@
+namespace Sample.Struct.Enumerables;
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Sample.Struct.Enumerables
+public struct WhereEnumerator<T, TAtor> : IEnumerator<T>
+    where TAtor : IEnumerator<T>
 {
-    public struct WhereEnumerator<T, TAtor> : IEnumerator<T>
-        where TAtor : IEnumerator<T>
+    internal WhereEnumerator(in TAtor enumerator, Func<T, bool> predicate)
     {
-        internal WhereEnumerator(in TAtor enumerator, Func<T, bool> predicate)
-            => (_enumerator, _predicate) = (enumerator, predicate);
+        (this._enumerator, this._predicate) = (enumerator, predicate);
+    }
 
-        TAtor _enumerator;
+    private TAtor _enumerator;
 
-        readonly Func<T, bool> _predicate;
+    private readonly Func<T, bool> _predicate;
 
-        public T Current => _enumerator.Current;
+    public T Current => this._enumerator.Current;
 
-        object IEnumerator.Current => Current;
+    object IEnumerator.Current => this.Current;
 
-        public void Dispose() { }
+    public void Dispose()
+    {
+    }
 
-        public bool MoveNext()
+    public bool MoveNext()
+    {
+        do
         {
-            do
-            {
-                if (!_enumerator.MoveNext())
-                    return false;
-            }
-            while (!_predicate(_enumerator.Current));
-            return true;
-        }
+            if (!this._enumerator.MoveNext())
+                return false;
+        } while (!this._predicate(this._enumerator.Current));
 
-        public void Reset() => _enumerator.Reset();
+        return true;
+    }
+
+    public void Reset()
+    {
+        this._enumerator.Reset();
     }
 }

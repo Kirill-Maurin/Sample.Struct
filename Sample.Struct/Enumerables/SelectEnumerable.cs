@@ -24,7 +24,7 @@ namespace Sample.Struct.Enumerables
             => enumerable.Select(selector.AsStruct());
 
         public static Enumerable<TOut, SelectEnumerator<T, TOut, TAtor, TSelector>, SelectEnumerable<T, TOut, TAtor, TAble, TSelector>> Select<T, TOut, TAtor, TAble, TSelector>
-            (this in Enumerable<T, TAtor, TAble> enumerable, Function<TSelector, T, TOut> selector)
+            (this in Enumerable<T, TAtor, TAble> enumerable, FunctionTOut<TSelector, T, TOut> selector)
             where TAtor : IEnumerator<T>
             where TAble : IEnumerable<T, TAtor>
             where TSelector : IFunc<T, TOut>

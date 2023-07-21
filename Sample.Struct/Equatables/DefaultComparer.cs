@@ -1,11 +1,16 @@
-﻿using System.Collections.Generic;
+﻿namespace Sample.Struct.Equatables;
 
-namespace Sample.Struct.Equatables
+using System.Collections.Generic;
+
+public struct DefaultComparer<T> : IEqualityComparer<T>
 {
-    public struct DefaultComparer<T> : IEqualityComparer<T>
+    public bool Equals(T left, T right)
     {
-        public bool Equals(T left, T right) => EqualityComparer<T>.Default.Equals(left, right);
+        return EqualityComparer<T>.Default.Equals(left, right);
+    }
 
-        public int GetHashCode(T obj) => EqualityComparer<T>.Default.GetHashCode(obj);
+    public int GetHashCode(T obj)
+    {
+        return EqualityComparer<T>.Default.GetHashCode(obj);
     }
 }

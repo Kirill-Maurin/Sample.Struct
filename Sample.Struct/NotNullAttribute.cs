@@ -1,6 +1,7 @@
+namespace Sample.Struct;
+
 using System;
 
-namespace Sample.Struct
+public sealed class NotNullAttribute : Attribute
 {
-    public class NotNullAttribute : Attribute {}
 }

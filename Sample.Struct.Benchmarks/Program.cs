@@ -1,9 +1,11 @@
-﻿using BenchmarkDotNet.Running;
+﻿namespace Sample.Struct.Benchmarks;
 
-namespace Sample.Struct.Benchmarks
+using BenchmarkDotNet.Running;
+
+public static class Program
 {
-    public static partial class Program
+    public static void Main(string[] args)
     {
-        public static void Main(string[] args) => BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(args);
+        BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(args);
     }
 }

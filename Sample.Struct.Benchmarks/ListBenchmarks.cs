@@ -1,45 +1,59 @@
-﻿using System.Collections.Generic;
+﻿namespace Sample.Struct.Benchmarks;
+
+using System.Collections.Generic;
 using System.Linq;
 using BenchmarkDotNet.Attributes;
-using Sample.Struct.Enumerables;
-using Sample.Struct.Indexables;
-using Sample.Struct.Summators;
+using Enumerables;
+using Indexables;
+using Summators;
 
-namespace Sample.Struct.Benchmarks
+public class ListBenchmarks
 {
-    public class ListBenchmarks
+    private static readonly List<int> List = Enumerable.Range(0, 1000).ToList();
+
+    [Benchmark(Baseline = true)]
+    public void SumListBenchmark()
     {
-        [Benchmark(Baseline = true)]
-        public void SumListBenchmark() => _list.Sum();
+        List.Sum();
+    }
 
-        [Benchmark]
-        public void ForEachSumListBenchmark() => ForEachSum(_list);
+    [Benchmark]
+    public void ForEachSumListBenchmark()
+    {
+        ForEachSum(List);
+    }
 
-        static int ForEachSum(List<int> list)
-        {
-            var sum = 0;
-            foreach (var n in list)
-                sum += n;
-            return sum;
-        }
+    private static int ForEachSum(List<int> list)
+    {
+        int sum = 0;
+        foreach (int n in list)
+            sum += n;
+        return sum;
+    }
 
-        [Benchmark]
-        public void ForSumListBenchmark() => ForSum(_list);
+    [Benchmark]
+    public void ForSumListBenchmark()
+    {
+        ForSum(List);
+    }
 
-        static int ForSum(List<int> list)
-        {
-            var sum = 0;
-            for (var i = 0; i < list.Count; i++)
-                sum += list[i];
-            return sum;
-        }
+    private static int ForSum(List<int> list)
+    {
+        int sum = 0;
+        for (int i = 0; i < list.Count; i++)
+            sum += list[i];
+        return sum;
+    }
 
-        [Benchmark]
-        public void GenericIndexableSumListBenchmark() => _list.AsIndexable().Sum(0.AsAdditive());
+    [Benchmark]
+    public void GenericIndexableSumListBenchmark()
+    {
+        List.AsIndexable().Sum(0.AsAdditive());
+    }
 
-        [Benchmark]
-        public void GenericEnumerableSumListBenchmark() => _list.AsStructEnumerable().Sum();
-
-        static List<int> _list = Enumerable.Range(0, 1000).ToList();
+    [Benchmark]
+    public void GenericEnumerableSumListBenchmark()
+    {
+        List.AsStructEnumerable().Sum();
     }
 }

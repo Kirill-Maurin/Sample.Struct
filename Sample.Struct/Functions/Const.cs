@@ -1,14 +1,19 @@
-﻿using System.Runtime.CompilerServices;
+﻿namespace Sample.Struct.Functions;
 
-namespace Sample.Struct.Functions
+using System.Runtime.CompilerServices;
+
+public readonly struct Const<TIn, T> : IFunc<TIn, T>
 {
-    public readonly struct Const<TIn, T> : IFunc<TIn, T>
+    public Const(T value)
     {
-        public Const(T value) => _value = value;
+        this._value = value;
+    }
 
-        readonly T _value;
+    private readonly T _value;
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public T Invoke(TIn _) => _value;
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public T Invoke(TIn _)
+    {
+        return this._value;
     }
 }

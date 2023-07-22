@@ -1,153 +1,236 @@
-﻿using System;
+﻿namespace Sample.Struct.Benchmarks;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using BenchmarkDotNet.Attributes;
-using Sample.Struct.Enumerables;
-using Sample.Struct.Indexables;
-using Sample.Struct.Summators;
+using Enumerables;
+using Indexables;
+using Summators;
 
-namespace Sample.Struct.Benchmarks
+[MemoryDiagnoser]
+[Config(typeof(Runtimes))]
+public class ArraySumBenchmarks
 {
-    [MemoryDiagnoser]
-    [Config(typeof(Runtimes))]
-    public class ArraySumBenchmarks
+    private static readonly int[] Array = Enumerable.Range(0, 1000).ToArray();
+
+    [Benchmark(Baseline = true)]
+    public void LinqSumArrayBenchmark()
     {
-        [Benchmark(Baseline = true)]
-        public void LinqSumArrayBenchmark() => _array.Sum();
+        Array.Sum();
+    }
 
-        [Benchmark]
-        public void AggregateSumArrayBenchmark() => _array.Aggregate((l, r) => l + r);
+    [Benchmark]
+    public void AggregateSumArrayBenchmark()
+    {
+        Array.Aggregate((l, r) => l + r);
+    }
 
-        [Benchmark]
-        public void ForSumArrayBenchmark() => ForSum(_array);
+    [Benchmark]
+    public void ForSumArrayBenchmark()
+    {
+        ForSum(Array);
+    }
 
-        [Benchmark]
-        public void GenericSumArrayBenchmark() => _array.Sum<int>(0, new IntSummator());
+    [Benchmark]
+    public void GenericSumArrayBenchmark()
+    {
+        Array.Sum<int>(0, new IntSummator());
+    }
 
-        [Benchmark]
-        public void Generic2SumArrayBenchmark() => _array.Sum2(0, new IntSummator());
+    [Benchmark]
+    public void Generic2SumArrayBenchmark()
+    {
+        Array.Sum2(0, new IntSummator());
+    }
 
-        [Benchmark]
-        public void Generic3SumArrayBenchmark() => _array.Sum<int, IntSummator>(0);
+    [Benchmark]
+    public void Generic3SumArrayBenchmark()
+    {
+        Array.Sum<int, IntSummator>(0);
+    }
 
-        [Benchmark]
-        public void Generic4SumArrayBenchmark() => _array.Sum(0.AsAdditive2());
+    [Benchmark]
+    public void Generic4SumArrayBenchmark()
+    {
+        Array.Sum(0.AsAdditive2());
+    }
 
-        [Benchmark]
-        public void Generic5SumArrayBenchmark() => _array.Sum(0.AsAdditive());
+    [Benchmark]
+    public void Generic5SumArrayBenchmark()
+    {
+        Array.Sum(0.AsAdditive());
+    }
 
-        [Benchmark]
-        public void GenericCheckedSumArrayBenchmark() => _array.Sum(0.AsCheckedAdditive());
+    [Benchmark]
+    public void GenericCheckedSumArrayBenchmark()
+    {
+        Array.Sum(0.AsCheckedAdditive());
+    }
 
-        [Benchmark]
-        public void GenericLongSumArrayBenchmark() => _array.Sum(0L.AsAccumulator());
+    [Benchmark]
+    public void GenericLongSumArrayBenchmark()
+    {
+        Array.Sum(0L.AsAccumulator());
+    }
 
-        [Benchmark]
-        public void GenericIndexableSumArrayBenchmark() => _array.AsGenericIndexable().Sum(0L.AsAccumulator());
+    [Benchmark]
+    public void GenericIndexableSumArrayBenchmark()
+    {
+        Array.AsGenericIndexable().Sum(0L.AsAccumulator());
+    }
 
-        [Benchmark]
-        public void Generic2IndexableSumArrayBenchmark() => _array.AsIndexable().Sum(0L.AsAccumulator());
+    [Benchmark]
+    public void Generic2IndexableSumArrayBenchmark()
+    {
+        Array.AsIndexable().Sum(0L.AsAccumulator());
+    }
 
-        [Benchmark]
-        public void Generic2IndexableDefaultSumArrayBenchmark() => _array.AsIndexable().Sum(0L.AsAccumulator(0));
+    [Benchmark]
+    public void Generic2IndexableDefaultSumArrayBenchmark()
+    {
+        Array.AsIndexable().Sum(0L.AsAccumulator(0));
+    }
 
-        [Benchmark]
-        public void Generic2EnumerableSumArrayBenchmark() => _array.AsStructEnumerable().Sum(0L.AsAccumulator());
+    [Benchmark]
+    public void Generic2EnumerableSumArrayBenchmark()
+    {
+        Array.AsStructEnumerable().Sum(0L.AsAccumulator());
+    }
 
-        [Benchmark]
-        public void Generic2EnumerableSumMemoryBenchmark() => _array.AsMemory().AsStructEnumerable().Sum(0L.AsAccumulator());
+    [Benchmark]
+    public void Generic2EnumerableSumMemoryBenchmark()
+    {
+        Array.AsMemory().AsStructEnumerable().Sum(0L.AsAccumulator());
+    }
 
-        [Benchmark]
-        public void Generic2EnumerableFoldSumArrayBenchmark() => _array.AsStructEnumerable().Fold(0L, default(LongIntSummator));
+    [Benchmark]
+    public void Generic2EnumerableFoldSumArrayBenchmark()
+    {
+        Array.AsStructEnumerable().Fold(0L, default(LongIntSummator));
+    }
 
-        [Benchmark]
-        public void IEnumerableIntSumArrayBenchmark() => Sum(_array);
+    [Benchmark]
+    public void IEnumerableIntSumArrayBenchmark()
+    {
+        Sum(Array);
+    }
 
-        public static int Sum(IEnumerable<int> source)
+    public static int Sum(IEnumerable<int> source)
+    {
+        int sum = 0;
+        checked
         {
-            int sum = 0;
-            checked
-            {
-                foreach (int v in source)
-                    sum += v;
-            }
-            return sum;
+            foreach (int v in source)
+                sum += v;
         }
 
-        [Benchmark]
-        public void ForEachSumArrayBenchmark() => ForeachSum(_array);
+        return sum;
+    }
 
-        [Benchmark]
-        public void ForEachSpanSumArrayBenchmark() => SpanSum(_array.AsSpan());
+    [Benchmark]
+    public void ForEachSumArrayBenchmark()
+    {
+        ForeachSum(Array);
+    }
 
-        [Benchmark]
-        public void ForEachSpanEnumerableSumArrayBenchmark() => EnumerableSpanForeachSum(_array.AsSpan().AsSpanEnumerable());
+    [Benchmark]
+    public void ForEachSpanSumArrayBenchmark()
+    {
+        SpanSum(Array.AsSpan());
+    }
 
-        [Benchmark]
-        public void SpanEnumerableSumArrayBenchmark() => EnumerableSpanSum(_array.AsSpan());
+    [Benchmark]
+    public void ForEachSpanEnumerableSumArrayBenchmark()
+    {
+        EnumerableSpanForeachSum(Array.AsSpan().AsSpanEnumerable());
+    }
 
-        [Benchmark]
-        public void GenericIEnumerableIntSumArrayBenchmark() => _array.AsEnumerable().AsStructEnumerable().Sum();
+    [Benchmark]
+    public void SpanEnumerableSumArrayBenchmark()
+    {
+        EnumerableSpanSum(Array.AsSpan());
+    }
 
-        [Benchmark]
-        public void GenericEnumerableIntSumArrayBenchmark() => _array.AsStructEnumerable().Sum();
+    [Benchmark]
+    public void GenericIEnumerableIntSumArrayBenchmark()
+    {
+        Array.AsEnumerable().AsStructEnumerable().Sum();
+    }
 
-        [Benchmark]
-        public void GenericEnumerableIntCheckedSumArrayBenchmark() => _array.AsStructEnumerable().Sum(0.AsCheckedAdditive());
+    [Benchmark]
+    public void GenericEnumerableIntSumArrayBenchmark()
+    {
+        Array.AsStructEnumerable().Sum();
+    }
 
-        [Benchmark]
-        public void GenericEnumerableSumArrayBenchmark() => _array.AsStructEnumerable().Sum(0.AsAdditive());
+    [Benchmark]
+    public void GenericEnumerableIntCheckedSumArrayBenchmark()
+    {
+        Array.AsStructEnumerable().Sum(0.AsCheckedAdditive());
+    }
 
-        [Benchmark]
-        public void GenericEnumerableSelectSumArrayBenchmark() => _array.Select(n => n + 5).Sum();
+    [Benchmark]
+    public void GenericEnumerableSumArrayBenchmark()
+    {
+        Array.AsStructEnumerable().Sum(0.AsAdditive());
+    }
 
-        [Benchmark]
-        public void Generic2EnumerableSelectSumArrayBenchmark() => _array.AsStructEnumerable().Select(n => n + 5).Sum();
+    [Benchmark]
+    public void GenericEnumerableSelectSumArrayBenchmark()
+    {
+        Array.Select(n => n + 5).Sum();
+    }
 
-        [Benchmark]
-        public void Generic3EnumerableSelectSumArrayBenchmark() => _array.AsStructLinqable().Select(n => n + 5).Sum();
+    [Benchmark]
+    public void Generic2EnumerableSelectSumArrayBenchmark()
+    {
+        Array.AsStructEnumerable().Select(n => n + 5).Sum();
+    }
 
+    [Benchmark]
+    public void Generic3EnumerableSelectSumArrayBenchmark()
+    {
+        Array.AsStructLinqable().Select(n => n + 5).Sum();
+    }
 
-        static int[] _array = Enumerable.Range(0, 1000).ToArray();
+    public static int SpanSum(Span<int> span)
+    {
+        int sum = 0;
+        foreach (int n in span)
+            sum += n;
+        return sum;
+    }
 
-        public static int SpanSum(Span<int> span)
-        {
-            var sum = 0;
-            foreach (var n in span)
-                sum += n;
-            return sum;
-        }
+    public static int EnumerableSpanForeachSum(SpanEnumerable<int> se)
+    {
+        int sum = 0;
+        foreach (int n in se)
+            sum += n;
+        return sum;
+    }
 
-        public static int EnumerableSpanForeachSum(SpanEnumerable<int> se)
-        {
-            var sum = 0;
-            foreach (var n in se)
-                sum += n;
-            return sum;
-        }
+    public static int EnumerableSpanSum(Span<int> span)
+    {
+        int sum = 0;
+        for (Span<int>.Enumerator e = span.GetEnumerator(); e.MoveNext();)
+            sum += e.Current;
+        return sum;
+    }
 
-        public static int EnumerableSpanSum(Span<int> span)
-        {
-            var sum = 0;
-            for (var e = span.GetEnumerator(); e.MoveNext();)
-                sum += e.Current;
-            return sum;
-        }
+    public static int ForeachSum(int[] array)
+    {
+        int sum = 0;
+        foreach (int n in array)
+            sum += n + 5;
+        return sum;
+    }
 
-        public static int ForeachSum(int[] array)
-        {
-            var sum = 0;
-            foreach (var n in array)
-                sum += n + 5;
-            return sum;
-        }
-
-        public static long ForSum(int[] array)
-        {
-            var sum = 0L;
-            for (var i = 0; i < array.Length; i++)
-                sum += array[i];
-            return sum;
-        }
+    public static long ForSum(int[] array)
+    {
+        long sum = 0L;
+        for (int i = 0; i < array.Length; i++)
+            sum += array[i];
+        return sum;
     }
 }

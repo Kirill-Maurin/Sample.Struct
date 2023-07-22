@@ -1,13 +1,18 @@
-﻿using System.Collections.Generic;
+﻿namespace Sample.Struct.Equatables;
+
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
-namespace Sample.Struct.Equatables
+public struct IntComparer : IEqualityComparer<int>
 {
-    public struct IntComparer : IEqualityComparer<int>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public bool Equals(int left, int right)
     {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(int left, int right) => left == right;
+        return left == right;
+    }
 
-        public int GetHashCode(int obj) => obj.GetHashCode();
+    public int GetHashCode(int obj)
+    {
+        return obj.GetHashCode();
     }
 }

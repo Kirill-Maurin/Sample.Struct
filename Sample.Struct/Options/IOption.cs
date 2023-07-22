@@ -1,8 +1,8 @@
-﻿namespace Sample.Struct.Options
+﻿namespace Sample.Struct.Options;
+
+public interface IOption<T>
 {
-    public interface IOption<T> 
-    {
-        bool TryGetValue(out NotNull<T> value);
-        bool HasValue { get; }
-    }
+    bool HasValue { get; }
+
+    bool TryGetValue(out NotNull<T> value);
 }

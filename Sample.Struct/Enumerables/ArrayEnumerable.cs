@@ -1,28 +1,44 @@
-using Sample.Struct.Summators;
+namespace Sample.Struct.Enumerables;
+
 using System.Collections;
 using System.Collections.Generic;
+using Summators;
 
-namespace Sample.Struct.Enumerables
+public static class ArrayEnumerable
 {
-    public static class ArrayEnumerable
+    public static Enumerable<T, ArrayEnumerator<T>, ArrayEnumerable<T>> AsStructEnumerable<T>(this T[] list)
     {
-        public static Enumerable<T, ArrayEnumerator<T>, ArrayEnumerable<T>> AsStructEnumerable<T>(this T[] list)
-            => new ArrayEnumerable<T>(list);
-
-        public static Linqable<int, ArrayEnumerator<int>, ArrayEnumerable<int>, IntSummator> AsStructLinqable(this int[] list)
-            => new ArrayEnumerable<int>(list);
+        return new ArrayEnumerable<T>(list);
     }
 
-    public readonly struct ArrayEnumerable<T> : IEnumerable<T, ArrayEnumerator<T>>
+    public static Linqable<int, ArrayEnumerator<int>, ArrayEnumerable<int>, IntSummator> AsStructLinqable(
+        this int[] list)
     {
-        internal ArrayEnumerable(T[] value) => Value = value;
+        return new ArrayEnumerable<int>(list);
+    }
+}
 
-        public T[] Value { get; }
+public readonly struct ArrayEnumerable<T> : IEnumerable<T, ArrayEnumerator<T>>
+{
+    internal ArrayEnumerable(T[] value)
+    {
+        Value = value;
+    }
 
-        public ArrayEnumerator<T> GetEnumerator() => new ArrayEnumerator<T>(Value);
+    public T[] Value { get; }
 
-        IEnumerator<T> IEnumerable<T>.GetEnumerator() => GetEnumerator();
+    public ArrayEnumerator<T> GetEnumerator()
+    {
+        return new ArrayEnumerator<T>(Value);
+    }
 
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+    IEnumerator<T> IEnumerable<T>.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
     }
 }

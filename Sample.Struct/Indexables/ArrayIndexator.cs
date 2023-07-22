@@ -1,13 +1,18 @@
-﻿using System.Runtime.CompilerServices;
+﻿namespace Sample.Struct.Indexables;
 
-namespace Sample.Struct.Indexables
+using System.Runtime.CompilerServices;
+
+public struct ArrayIndexator<T> : IIndexator<T, int, T[]>
 {
-    public struct ArrayIndexator<T> : IIndexator<T, int, T[]>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public T GetItem(T[] array, int index)
     {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public T GetItem(T[] array, int index) => array[index];
+        return array[index];
+    }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public int GetCount(T[] array) => array.Length;
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public int GetCount(T[] array)
+    {
+        return array.Length;
     }
 }

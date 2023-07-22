@@ -1,11 +1,16 @@
-﻿using System.Collections.Generic;
+﻿namespace Sample.Struct.Indexables;
 
-namespace Sample.Struct.Indexables
+using System.Collections.Generic;
+
+public struct ListIndexator<T> : IIndexator<T, int, List<T>>
 {
-    public struct ListIndexator<T> : IIndexator<T, int, List<T>>
+    public T GetItem(List<T> list, int index)
     {
-        public T GetItem(List<T> list, int index) => list[index];
+        return list[index];
+    }
 
-        public int GetCount(List<T> list) => list.Count;
+    public int GetCount(List<T> list)
+    {
+        return list.Count;
     }
 }

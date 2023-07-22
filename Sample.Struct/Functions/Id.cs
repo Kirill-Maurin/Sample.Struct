@@ -1,19 +1,12 @@
-﻿using Sample.Struct.Summators;
-using System.Runtime.CompilerServices;
+﻿namespace Sample.Struct.Functions;
 
-namespace Sample.Struct.Functions
+using Summators;
+
+public static class Id
 {
-    public static class Id
+    public static Function<Id<T>, T, T, TOperator> Function<T, TOperator>()
+        where TOperator : struct, ISummator<T, T>
     {
-        public static Function<Id<T>, T, T, TOperator> Function<T, TOperator>()
-            where TOperator : struct, ISummator<T, T>
-            => default(Id<T>);
-    }
-
-    public readonly struct Id<T> : IFunc<T, T>
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-
-        public T Invoke(T arg) => arg;
+        return default(Id<T>);
     }
 }
